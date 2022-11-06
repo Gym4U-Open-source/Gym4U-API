@@ -53,6 +53,7 @@ public class PersonsController {
     @DeleteMapping("{personId}")
     public ResponseEntity<?> deletePerson(
             @PathVariable Long personId) {
+        // DELETE METHOD IMPLEMENTED
         return personService.delete(personId);
     }
 }
