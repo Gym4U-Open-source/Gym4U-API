@@ -43,6 +43,7 @@ public class PersonsController {
 
     @PutMapping("{personId}")
     public PersonResource updatePerson(
+            // UPDATE METHOD IMPLEMENTED
             @PathVariable Long personId,
             @RequestBody UpdatePersonResource resource) {
         return mapper.toResource(
