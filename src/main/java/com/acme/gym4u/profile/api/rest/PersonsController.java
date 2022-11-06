@@ -25,6 +25,7 @@ public class PersonsController {
 
     @GetMapping
     public Page<PersonResource> getAllPersons(Pageable pageable) {
+        // GET METHOD IMPLEMENTED
         return mapper.modelListPage(personService.getAll(), pageable);
     }
 
