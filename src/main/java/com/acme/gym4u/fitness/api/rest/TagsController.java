@@ -4,6 +4,7 @@ import com.acme.gym4u.fitness.domain.service.TagService;
 import com.acme.gym4u.fitness.mapping.TagMapper;
 import com.acme.gym4u.fitness.resource.CreateTagResource;
 import com.acme.gym4u.fitness.resource.TagResource;
+import com.acme.gym4u.fitness.resource.UpdateTagResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,6 +43,15 @@ public class TagsController {
         return new ResponseEntity<>(mapper.toResource(
                 tagService.create(mapper.toModel(resource))),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping("{tagId}")
+    public TagResource tagStudent(
+            @PathVariable Long tagId,
+            @RequestBody UpdateTagResource resource) {
+        return mapper.toResource(
+                tagService.update(tagId,
+                        mapper.toModel(resource)));
     }
 
 }
