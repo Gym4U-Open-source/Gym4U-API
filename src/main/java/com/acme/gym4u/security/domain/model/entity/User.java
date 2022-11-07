@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -26,6 +27,12 @@ public class User extends AuditModel {
     @Size(max = 50)
     @Column(unique = true)
     private String username;
+
+    @NotBlank
+    @Size(max = 50)
+    @Column(unique = true)
+    @Email
+    private String email;
 
     @NotBlank
     @Size(max = 120)
