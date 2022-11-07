@@ -54,4 +54,10 @@ public class TagsController {
                         mapper.toModel(resource)));
     }
 
+    @DeleteMapping("{tagId}")
+    public ResponseEntity<?> deleteTag(
+            @PathVariable Long tagId) {
+        return tagService.delete(tagId);
+    }
+
 }
