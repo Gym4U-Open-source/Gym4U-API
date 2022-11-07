@@ -35,6 +35,11 @@ public class TagsController {
         return mapper.modelListPage(tagService.getAll(), pageable);
     }
 
+    @GetMapping("{tagId}")
+    public TagResource getTagById(@PathVariable Long tagId) {
+        return mapper.toResource(tagService.getById(tagId));
+    }
+
     @PostMapping
     @Operation(summary = "Create Tag",
             responses = {@ApiResponse(description = "Tag successfully created", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TagResource.class)))})
