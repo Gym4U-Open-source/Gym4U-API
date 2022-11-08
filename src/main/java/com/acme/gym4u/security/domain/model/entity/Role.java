@@ -10,9 +10,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@With
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@With
+@Entity
 @Table(name = "roles")
 public class Role extends AuditModel {
     @Id
@@ -22,8 +23,4 @@ public class Role extends AuditModel {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Roles name;
-
-    /*@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users = new HashSet<>();*/
 }

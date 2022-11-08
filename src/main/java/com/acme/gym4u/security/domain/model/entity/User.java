@@ -2,6 +2,7 @@ package com.acme.gym4u.security.domain.model.entity;
 
 import com.acme.gym4u.security.domain.model.enumns.Focus;
 import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,11 +13,12 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
-@With
 @NoArgsConstructor
+@Getter
+@Setter
+@With
 @AllArgsConstructor
+@Entity
 @Table(name = "users")
 public class User extends AuditModel {
     @Id
@@ -39,10 +41,14 @@ public class User extends AuditModel {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role>roles = new HashSet<>();
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private Focus focus;
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }
