@@ -1,7 +1,7 @@
 package com.acme.gym4u.profile.service;
 
 import com.acme.gym4u.profile.domain.model.entity.Profile;
-import com.acme.gym4u.profile.domain.persistence.PersonRepository;
+import com.acme.gym4u.profile.domain.persistence.ProfileRepository;
 import com.acme.gym4u.profile.domain.service.PersonService;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
@@ -20,28 +20,28 @@ public class PersonServiceImpl implements PersonService {
 
     private static final String ENTITY = "Person";
 
-    private final PersonRepository personRepository;
+    private final ProfileRepository profileRepository;
 
     private final Validator validator;
 
-    public PersonServiceImpl(PersonRepository personRepository, Validator validator) {
-        this.personRepository = personRepository;
+    public PersonServiceImpl(ProfileRepository profileRepository, Validator validator) {
+        this.profileRepository = profileRepository;
         this.validator = validator;
     }
 
     @Override
     public List<Profile> getAll() {
-        return personRepository.findAll();
+        return profileRepository.findAll();
     }
 
     @Override
     public Page<Profile> getAll(Pageable pageable) {
-        return personRepository.findAll(pageable);
+        return profileRepository.findAll(pageable);
     }
 
     @Override
     public Profile getById(Long personId) {
-        return personRepository.findById(personId)
+        return profileRepository.findById(personId)
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, personId));
     }
 
@@ -55,7 +55,7 @@ public class PersonServiceImpl implements PersonService {
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
 
-        return personRepository.save(profile);
+        return profileRepository.save(profile);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class PersonServiceImpl implements PersonService {
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
 
-        return personRepository.findById(personId).map(profile ->
-                        personRepository.save(profile
+        return profileRepository.findById(personId).map(profile ->
+                        profileRepository.save(profile
                                 .withName(request.getName())
                                 .withLastName(request.getLastName())
                                 .withEmail(request.getEmail())))
@@ -77,8 +77,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public ResponseEntity<?> delete(Long personId) {
-        return personRepository.findById(personId).map(profile -> {
-            personRepository.delete(profile);
+        return profileRepository.findById(personId).map(profile -> {
+            profileRepository.delete(profile);
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException(ENTITY, personId));
     }
