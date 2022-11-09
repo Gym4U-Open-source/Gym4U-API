@@ -2,7 +2,7 @@ package com.acme.gym4u.profile.service;
 
 import com.acme.gym4u.profile.domain.model.entity.Profile;
 import com.acme.gym4u.profile.domain.persistence.ProfileRepository;
-import com.acme.gym4u.profile.domain.service.PersonService;
+import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class PersonServiceImpl implements PersonService {
+public class ProfileServiceImpl implements ProfileService {
 
     private static final String ENTITY = "Person";
 
@@ -24,7 +24,7 @@ public class PersonServiceImpl implements PersonService {
 
     private final Validator validator;
 
-    public PersonServiceImpl(ProfileRepository profileRepository, Validator validator) {
+    public ProfileServiceImpl(ProfileRepository profileRepository, Validator validator) {
         this.profileRepository = profileRepository;
         this.validator = validator;
     }

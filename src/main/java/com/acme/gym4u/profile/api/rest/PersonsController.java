@@ -1,6 +1,6 @@
 package com.acme.gym4u.profile.api.rest;
 
-import com.acme.gym4u.profile.domain.service.PersonService;
+import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;
 import com.acme.gym4u.profile.resource.CreateProfileResource;
 import com.acme.gym4u.profile.resource.ProfileResource;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "api/v1/persons", produces = "application/json")
 public class PersonsController {
-    private final PersonService personService;
+    private final ProfileService profileService;
     private final ProfileMapper mapper;
 
-    public PersonsController(PersonService personService, ProfileMapper mapper) {
-        this.personService = personService;
+    public PersonsController(ProfileService profileService, ProfileMapper mapper) {
+        this.profileService = profileService;
         this.mapper = mapper;
     }
 
@@ -26,19 +26,19 @@ public class PersonsController {
     @GetMapping
     public Page<ProfileResource> getAllPersons(Pageable pageable) {
         // GET METHOD IMPLEMENTED
-        return mapper.modelListPage(personService.getAll(), pageable);
+        return mapper.modelListPage(profileService.getAll(), pageable);
     }
 
     @GetMapping("{personId}")
     public ProfileResource getPersonById(@PathVariable Long personId) {
-        return mapper.toResource(personService.getById(personId));
+        return mapper.toResource(profileService.getById(personId));
     }
 
     @PostMapping
     public ResponseEntity<ProfileResource> createPerson(@RequestBody CreateProfileResource resource) {
         System.out.println(resource.getEmail());
         return new ResponseEntity<>(mapper.toResource(
-                personService.create(mapper.toModel(resource))),
+                profileService.create(mapper.toModel(resource))),
                 HttpStatus.CREATED);
     }
 
@@ -48,7 +48,7 @@ public class PersonsController {
             @PathVariable Long personId,
             @RequestBody UpdateProfileResource resource) {
         return mapper.toResource(
-                personService.update(personId,
+                profileService.update(personId,
                         mapper.toModel(resource)));
     }
 
@@ -56,6 +56,6 @@ public class PersonsController {
     public ResponseEntity<?> deletePerson(
             @PathVariable Long personId) {
         // DELETE METHOD IMPLEMENTED
-        return personService.delete(personId);
+        return profileService.delete(personId);
     }
 }

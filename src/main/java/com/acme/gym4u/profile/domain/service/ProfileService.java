@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface PersonService {
+public interface ProfileService {
     List<Profile> getAll();
     Page<Profile> getAll(Pageable pageable);
     Profile getById(Long personId);
