@@ -1,7 +1,7 @@
 package com.acme.gym4u.profile.api.rest;
 
 import com.acme.gym4u.profile.domain.service.PersonService;
-import com.acme.gym4u.profile.mapping.PersonMapper;
+import com.acme.gym4u.profile.mapping.ProfileMapper;
 import com.acme.gym4u.profile.resource.CreatePersonResource;
 import com.acme.gym4u.profile.resource.PersonResource;
 import com.acme.gym4u.profile.resource.UpdatePersonResource;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "api/v1/persons", produces = "application/json")
 public class PersonsController {
     private final PersonService personService;
-    private final PersonMapper mapper;
+    private final ProfileMapper mapper;
 
-    public PersonsController(PersonService personService, PersonMapper mapper) {
+    public PersonsController(PersonService personService, ProfileMapper mapper) {
         this.personService = personService;
         this.mapper = mapper;
     }

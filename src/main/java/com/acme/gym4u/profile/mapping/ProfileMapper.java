@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.List;
 
-public class PersonMapper implements Serializable {
+public class ProfileMapper implements Serializable {
     @Autowired
     EnhancedModelMapper mapper;
 
