@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table( name = "persons")
+@Table( name = "profiles")
 public class Profile extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,4 @@ public class Profile extends AuditModel {
     @NotBlank
     @Size(max = 60)
     private String lastName;
-
-    @Size(max = 120)
-    @Column(unique = true)
-    private String email;
 }

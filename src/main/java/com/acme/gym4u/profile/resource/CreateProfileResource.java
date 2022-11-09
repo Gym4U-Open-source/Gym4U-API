@@ -21,7 +21,4 @@ public class CreateProfileResource {
     @NotBlank
     @Size(max = 60)
     private String lastName;
-
-    @Size(max = 120)
-    private String email;
 }

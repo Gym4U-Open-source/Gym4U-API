@@ -70,8 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.findById(personId).map(profile ->
                         profileRepository.save(profile
                                 .withName(request.getName())
-                                .withLastName(request.getLastName())
-                                .withEmail(request.getEmail())))
+                                .withLastName(request.getLastName())))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, personId));
     }
 
