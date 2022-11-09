@@ -1,6 +1,6 @@
 package com.acme.gym4u.profile.domain.service;
 
-import com.acme.gym4u.profile.domain.model.entity.Person;
+import com.acme.gym4u.profile.domain.model.entity.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface PersonService {
-    List<Person> getAll();
-    Page<Person> getAll(Pageable pageable);
-    Person getById(Long personId);
-    Person create(Person person);
-    Person update(Long personId, Person request);
+    List<Profile> getAll();
+    Page<Profile> getAll(Pageable pageable);
+    Profile getById(Long personId);
+    Profile create(Profile profile);
+    Profile update(Long personId, Profile request);
     ResponseEntity<?> delete(Long personId);
 }
