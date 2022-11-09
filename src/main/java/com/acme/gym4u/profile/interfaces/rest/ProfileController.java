@@ -1,4 +1,4 @@
-package com.acme.gym4u.profile.api.rest;
+package com.acme.gym4u.profile.interfaces.rest;
 
 import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;
@@ -12,49 +12,48 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "api/v1/persons", produces = "application/json")
-public class PersonsController {
+@RequestMapping(value = "api/v1/profiles", produces = "application/json")
+public class ProfileController {
     private final ProfileService profileService;
     private final ProfileMapper mapper;
 
-    public PersonsController(ProfileService profileService, ProfileMapper mapper) {
+    public ProfileController(ProfileService profileService, ProfileMapper mapper) {
         this.profileService = profileService;
         this.mapper = mapper;
     }
 
-
     @GetMapping
-    public Page<ProfileResource> getAllPersons(Pageable pageable) {
+    public Page<ProfileResource> getAllProfiles(Pageable pageable) {
         // GET METHOD IMPLEMENTED
         return mapper.modelListPage(profileService.getAll(), pageable);
     }
 
     @GetMapping("{personId}")
-    public ProfileResource getPersonById(@PathVariable Long personId) {
-        return mapper.toResource(profileService.getById(personId));
+    public ProfileResource getProfileById(@PathVariable Long profileId) {
+        return mapper.toResource(profileService.getById(profileId));
     }
 
     @PostMapping
-    public ResponseEntity<ProfileResource> createPerson(@RequestBody CreateProfileResource resource) {
+    public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
         return new ResponseEntity<>(mapper.toResource(
                 profileService.create(mapper.toModel(resource))),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("{personId}")
-    public ProfileResource updatePerson(
+    @PutMapping("{profileId}")
+    public ProfileResource updateProfile(
             // UPDATE METHOD IMPLEMENTED
-            @PathVariable Long personId,
+            @PathVariable Long profileId,
             @RequestBody UpdateProfileResource resource) {
         return mapper.toResource(
-                profileService.update(personId,
+                profileService.update(profileId,
                         mapper.toModel(resource)));
     }
 
-    @DeleteMapping("{personId}")
-    public ResponseEntity<?> deletePerson(
-            @PathVariable Long personId) {
+    @DeleteMapping("{profileId}")
+    public ResponseEntity<?> deleteProfile(
+            @PathVariable Long profileId) {
         // DELETE METHOD IMPLEMENTED
-        return profileService.delete(personId);
+        return profileService.delete(profileId);
     }
 }
