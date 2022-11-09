@@ -7,7 +7,7 @@ import lombok.*;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonResource {
+public class ProfileResource {
     private Long id;
     private String name;
     private String lastName;

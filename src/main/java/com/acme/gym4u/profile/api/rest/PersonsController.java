@@ -2,9 +2,9 @@ package com.acme.gym4u.profile.api.rest;
 
 import com.acme.gym4u.profile.domain.service.PersonService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;
-import com.acme.gym4u.profile.resource.CreatePersonResource;
-import com.acme.gym4u.profile.resource.PersonResource;
-import com.acme.gym4u.profile.resource.UpdatePersonResource;
+import com.acme.gym4u.profile.resource.CreateProfileResource;
+import com.acme.gym4u.profile.resource.ProfileResource;
+import com.acme.gym4u.profile.resource.UpdateProfileResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,18 +24,18 @@ public class PersonsController {
 
 
     @GetMapping
-    public Page<PersonResource> getAllPersons(Pageable pageable) {
+    public Page<ProfileResource> getAllPersons(Pageable pageable) {
         // GET METHOD IMPLEMENTED
         return mapper.modelListPage(personService.getAll(), pageable);
     }
 
     @GetMapping("{personId}")
-    public PersonResource getPersonById(@PathVariable Long personId) {
+    public ProfileResource getPersonById(@PathVariable Long personId) {
         return mapper.toResource(personService.getById(personId));
     }
 
     @PostMapping
-    public ResponseEntity<PersonResource> createPerson(@RequestBody CreatePersonResource resource) {
+    public ResponseEntity<ProfileResource> createPerson(@RequestBody CreateProfileResource resource) {
         System.out.println(resource.getEmail());
         return new ResponseEntity<>(mapper.toResource(
                 personService.create(mapper.toModel(resource))),
@@ -43,10 +43,10 @@ public class PersonsController {
     }
 
     @PutMapping("{personId}")
-    public PersonResource updatePerson(
+    public ProfileResource updatePerson(
             // UPDATE METHOD IMPLEMENTED
             @PathVariable Long personId,
-            @RequestBody UpdatePersonResource resource) {
+            @RequestBody UpdateProfileResource resource) {
         return mapper.toResource(
                 personService.update(personId,
                         mapper.toModel(resource)));
