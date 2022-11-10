@@ -5,14 +5,11 @@ import com.acme.gym4u.profile.domain.persistence.ProfileRepository;
 import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.security.api.internal.UserContextFacade;
 import com.acme.gym4u.security.domain.model.entity.User;
-import com.acme.gym4u.security.domain.persistence.UserRepository;
-import com.acme.gym4u.security.middleware.UserDetailsImpl;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
@@ -63,8 +60,8 @@ public class ProfileServiceImpl implements ProfileService {
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
 
-        User user = userContextFacade.findById(getUserIdFromAuthentication())
-                .orElseThrow(() -> new ResourceNotFoundException(ENTITY, getUserIdFromAuthentication()));
+        User user = userContextFacade.findByToken()
+                .orElseThrow(() -> new ResourceNotFoundException(ENTITY));
 
         request.setUser(user);
 
@@ -95,14 +92,9 @@ public class ProfileServiceImpl implements ProfileService {
         }).orElseThrow(() -> new ResourceNotFoundException(ENTITY, personId));
     }
 
-public Long getUserIdFromAuthentication() {
-     return ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-}
-
     @Override
     public Profile getByToken() {
-        Long userId = this.getUserIdFromAuthentication();
-        return profileRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundException(ENTITY, userId));
+        return profileRepository.findByUserId(userContextFacade.findByToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY)).getId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY));
     }
 
 }
