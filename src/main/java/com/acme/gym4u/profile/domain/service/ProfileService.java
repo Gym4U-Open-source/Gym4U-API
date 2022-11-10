@@ -17,6 +17,4 @@ public interface ProfileService {
 
     // EXTRA
     Profile getByToken();
-
-    boolean validateRecord(Long clientId);
 }

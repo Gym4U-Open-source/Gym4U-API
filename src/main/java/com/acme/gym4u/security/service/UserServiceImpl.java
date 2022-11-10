@@ -13,6 +13,7 @@ import com.acme.gym4u.security.domain.service.communication.RegisterResponse;
 import com.acme.gym4u.security.middleware.JwtHandler;
 import com.acme.gym4u.security.middleware.UserDetailsImpl;
 import com.acme.gym4u.security.resource.AuthenticateResource;
+import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.mapping.EnhancedModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +31,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final String ENTITY = "USER";
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -145,5 +148,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> getById(Long userId) {
+        return userRepository.findById(userId);
     }
 }
