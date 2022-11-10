@@ -19,5 +19,5 @@ public class CreateMessageResource {
     @NotNull
     @NotBlank
     @Size(max = 200)
-    private String content;
+    private String message;
 }

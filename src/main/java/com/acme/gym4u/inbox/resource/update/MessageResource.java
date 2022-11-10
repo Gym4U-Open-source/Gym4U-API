@@ -11,5 +11,5 @@ import lombok.*;
 public class MessageResource {
     private Long id;
     private Long userId;
-    private String content;
+    private String message;
 }

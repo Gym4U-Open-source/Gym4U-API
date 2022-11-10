@@ -13,5 +13,5 @@ public class UpdateMessageResource {
     @NotBlank
     @NotNull
     @Size(max = 200)
-    private String content;
+    private String message;
 }

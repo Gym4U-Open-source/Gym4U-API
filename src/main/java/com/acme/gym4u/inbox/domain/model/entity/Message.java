@@ -34,7 +34,7 @@ public class Message extends AuditModel {
     @NotBlank
     @NotNull
     @Size(max = 240)
-    @Column(name = "content")
-    private String content;
+    @Column(name = "message")
+    private String message;
 
 }
