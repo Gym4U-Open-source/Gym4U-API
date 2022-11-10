@@ -28,7 +28,7 @@ public class ProfileController {
         return mapper.modelListPage(profileService.getAll(), pageable);
     }
 
-    @GetMapping("{personId}")
+    @GetMapping("{profileId}")
     public ProfileResource getProfileById(@PathVariable Long profileId) {
         return mapper.toResource(profileService.getById(profileId));
     }
