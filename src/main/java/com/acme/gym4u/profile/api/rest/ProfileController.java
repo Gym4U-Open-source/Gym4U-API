@@ -1,4 +1,4 @@
-package com.acme.gym4u.profile.interfaces.rest;
+package com.acme.gym4u.profile.api.rest;
 
 import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;

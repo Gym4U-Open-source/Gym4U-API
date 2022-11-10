@@ -1,5 +1,6 @@
 package com.acme.gym4u.security.domain.model.entity;
 
+import com.acme.gym4u.profile.domain.model.entity.Profile;
 import com.acme.gym4u.security.domain.model.enumns.Focus;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,13 @@ public class User extends AuditModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(
+            targetEntity = Profile.class,
+            mappedBy = "user"
+    )
+    @JsonIgnore
+    private Profile profile;
 
     public User(String username, String email, String password) {
         this.username = username;

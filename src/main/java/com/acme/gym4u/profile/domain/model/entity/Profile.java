@@ -1,5 +1,6 @@
 package com.acme.gym4u.profile.domain.model.entity;
 
+import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import lombok.*;
 
@@ -29,4 +30,11 @@ public class Profile extends AuditModel {
     @NotBlank
     @Size(max = 60)
     private String lastName;
+
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }
