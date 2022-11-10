@@ -1,23 +1,17 @@
-package com.acme.gym4u.inbox.resource.create;
-
-
-import lombok.*;
+package com.acme.gym4u.inbox.resource.update;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@With
-public class CreateMessage {
+public class UpdateMessageResource {
+    private long id;
 
-    private Long id;
 
-    @NotNull
+    private Long userId;
+
     @NotBlank
+    @NotNull
     @Size(max = 200)
     private String content;
 }
