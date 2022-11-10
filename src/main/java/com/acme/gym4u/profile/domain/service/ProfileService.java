@@ -14,4 +14,9 @@ public interface ProfileService {
     Profile create(Profile profile);
     Profile update(Long personId, Profile request);
     ResponseEntity<?> delete(Long personId);
+
+    // EXTRA
+    Profile getByToken();
+
+    boolean validateRecord(Long clientId);
 }

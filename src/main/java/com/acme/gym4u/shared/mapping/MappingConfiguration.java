@@ -1,5 +1,6 @@
 package com.acme.gym4u.shared.mapping;
 
+import com.acme.gym4u.profile.mapping.ProfileMapper;
 import com.acme.gym4u.security.mapping.RoleMapper;
 import com.acme.gym4u.security.mapping.UserMapper;
 import org.springframework.context.annotation.Bean;

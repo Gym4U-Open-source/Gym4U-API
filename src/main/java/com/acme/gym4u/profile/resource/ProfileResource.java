@@ -11,4 +11,5 @@ public class ProfileResource {
     private Long id;
     private String name;
     private String lastName;
+    private Long UserId;
 }
