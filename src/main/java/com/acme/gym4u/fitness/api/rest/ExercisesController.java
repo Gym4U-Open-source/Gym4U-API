@@ -5,9 +5,13 @@ import com.acme.gym4u.fitness.mapping.ExerciseMapper;
 import com.acme.gym4u.fitness.resource.CreateExerciseResource;
 import com.acme.gym4u.fitness.resource.ExerciseResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 @RequestMapping(value = "api/v1/exercise", produces = "application/json")
@@ -21,6 +25,16 @@ public class ExercisesController {
         this.mapper = mapper;
     }
 
+    @GetMapping
+    public Page<ExerciseResource> getAllExercises(Pageable pageable){
+        return mapper.modelListPage(exerciseService.getAll(), pageable);
+    }
+
+    @GetMapping("{exerciseId}")
+    public ExerciseResource getExerciseById(@PathVariable Long exerciseId)
+    {
+        return mapper.toResource(exerciseService.getById(exerciseId));
+    }
 
     @PostMapping
     public ResponseEntity<ExerciseResource> createExercise(
