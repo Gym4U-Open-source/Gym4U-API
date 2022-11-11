@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message create(Long userId, Message message) {
+    public Message create(Long userId,Long messageUserId, Message message) {
 
         Set<ConstraintViolation<Message>> violations=validator.validate(message);
         if(!violations.isEmpty())
@@ -64,6 +64,10 @@ public class MessageServiceImpl implements MessageService {
                 .orElseThrow(()->new ResourceNotFoundException("User",userId));
 
         message.setUser(user);
+
+        User messageUser= userRepository.findById(messageUserId)
+                .orElseThrow(()->new ResourceNotFoundException("User",messageUserId));
+        message.setMessageUser(messageUser);
 
         return messageRepository.save(message);
     }

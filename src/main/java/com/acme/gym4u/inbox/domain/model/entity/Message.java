@@ -31,6 +31,12 @@ public class Message extends AuditModel {
     @JsonIgnore
     private User user;
 
+    @ManyToOne()
+    @JoinColumn(name = "from_user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private User messageUser;
+
+
     @NotBlank
     @NotNull
     @Size(max = 240)

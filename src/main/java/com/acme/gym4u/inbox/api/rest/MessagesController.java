@@ -35,10 +35,10 @@ public class MessagesController {
         return mapper.toResource(messageService.getById(messageId));
     }
 
-    @PostMapping("user/{userId}")
-    public MessageResource createMessage(@PathVariable Long userId,
+    @PostMapping("user/{userId}/from_user/{messageUserId}")
+    public MessageResource createMessage(@PathVariable Long userId,@PathVariable Long messageUserId,
                                          @Valid @RequestBody CreateMessageResource resource){
-        return mapper.toResource(messageService.create(userId, mapper.toModel(resource)));
+        return mapper.toResource(messageService.create(userId,messageUserId, mapper.toModel(resource)));
     }
 
     @PutMapping("{messageId}")

@@ -11,7 +11,7 @@ public interface MessageService {
     List<Message> getAll();
     Page<Message> getAll(Pageable pageable);
     Message getById(Long messageId);
-    Message create(Long userId, Message message);
+    Message create(Long userId, Long messageUserId ,Message message);
 
     Message update(Long messageId, Message request);
     ResponseEntity<?> delete(Long messageId);
