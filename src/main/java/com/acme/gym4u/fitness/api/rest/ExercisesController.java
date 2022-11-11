@@ -7,10 +7,7 @@ import com.acme.gym4u.fitness.resource.ExerciseResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api/v1/exercise", produces = "application/json")
@@ -24,12 +21,19 @@ public class ExercisesController {
         this.mapper = mapper;
     }
 
+
     @PostMapping
     public ResponseEntity<ExerciseResource> createExercise(
             @RequestBody CreateExerciseResource resource) {
         return new ResponseEntity<>(mapper.toResource(
                 exerciseService.create(mapper.toModel(resource))),
                 HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{exerciseId}")
+    public ResponseEntity<?> deleteExercise(
+            @PathVariable Long exerciseId) {
+        return exerciseService.delete(exerciseId);
     }
 
 }
