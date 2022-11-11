@@ -9,13 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/v1/coach/{coachId}/followers", produces = "application/json")
-@Tag(name = "CoachFollowers", description = "Add & remove coach clients")
-public class CoachFollowersController {
+@RequestMapping(value = "/api/v1/users/{coachId}/followers", produces = "application/json")
+@Tag(name = "UserFollowers", description = "Add & remove coach clients")
+public class UserFollowersController {
     private final FollowService followService;
     private final FollowMapper mapper;
 
-    public CoachFollowersController(FollowService followService, FollowMapper mapper) {
+    public UserFollowersController(FollowService followService, FollowMapper mapper) {
         this.followService = followService;
         this.mapper = mapper;
     }
