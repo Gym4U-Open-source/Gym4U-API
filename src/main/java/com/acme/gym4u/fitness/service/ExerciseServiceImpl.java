@@ -61,11 +61,33 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise update(Long exerciseId, Exercise exercise) {
-        return null;
+
+        Set<ConstraintViolation<Exercise>> violations = validator.validate(exercise);
+
+        if(!violations.isEmpty())
+            throw new ResourceValidationException(ENTITY, violations);
+        Exercise exerciseWithName = exerciseRepository.findByName(exercise.getName());
+
+        if(exerciseWithName != null)
+            throw new ResourceValidationException(ENTITY,
+                    "An exercise with the same name already exists.");
+
+        return exerciseRepository.findById(exerciseId).map(element ->
+                        exerciseRepository.save(element
+                                .withName(exercise.getName())
+                                .withCategory(exercise.getCategory())
+                                .withTag(exercise.getTag())
+                                .withAproach(exercise.getAproach())
+                                .withAssetUrl(exercise.getAssetUrl())))
+                .orElseThrow(() -> new ResourceNotFoundException(ENTITY, exerciseId));
+
     }
 
     @Override
     public ResponseEntity<?> delete(Long exerciseId) {
-        return null;
+        return exerciseRepository.findById(exerciseId).map(exercise -> {
+            exerciseRepository.delete(exercise);
+            return ResponseEntity.ok().build();
+        }).orElseThrow(() -> new ResourceNotFoundException(ENTITY, exerciseId));
     }
 }
