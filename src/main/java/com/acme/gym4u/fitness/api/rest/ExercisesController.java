@@ -4,6 +4,7 @@ import com.acme.gym4u.fitness.domain.service.ExerciseService;
 import com.acme.gym4u.fitness.mapping.ExerciseMapper;
 import com.acme.gym4u.fitness.resource.CreateExerciseResource;
 import com.acme.gym4u.fitness.resource.ExerciseResource;
+import com.acme.gym4u.fitness.resource.UpdateExerciseResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,16 @@ public class ExercisesController {
         return new ResponseEntity<>(mapper.toResource(
                 exerciseService.create(mapper.toModel(resource))),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping("{exerciseId}")
+    public ExerciseResource updateExercise(
+            @PathVariable Long exerciseId,
+            @RequestBody UpdateExerciseResource resource)
+    {
+        return mapper.toResource(
+                exerciseService.update(exerciseId,
+                        mapper.toModel(resource)));
     }
 
     @DeleteMapping("{exerciseId}")
