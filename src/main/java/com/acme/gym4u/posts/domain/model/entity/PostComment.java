@@ -1,5 +1,6 @@
 package com.acme.gym4u.posts.domain.model.entity;
 
+import com.acme.gym4u.shared.domain.model.AuditModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "post_comment")
-public class PostComment {
+public class PostComment extends AuditModel{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -1,11 +1,14 @@
 package com.acme.gym4u.posts.domain.model.entity;
 
 
+import com.acme.gym4u.shared.domain.model.AuditModel;
 import lombok.*;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post extends AuditModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +29,15 @@ public class Post {
 
     @NotBlank
     @NotNull
+    @Size(max = 120)
     @Column(name= "title")
     private String title;
 
-    @NotBlank
-    @NotNull
+
     @Column(name= "description")
     private String description;
 
-    @NotBlank
-    @NotNull
+
     @Column(name= "url_image")
     private String urlImage;
 
