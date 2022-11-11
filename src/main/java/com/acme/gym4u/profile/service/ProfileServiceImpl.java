@@ -60,7 +60,7 @@ public class ProfileServiceImpl implements ProfileService {
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
 
-        User user = userContextFacade.findByToken()
+        User user = userContextFacade.findByUserToken()
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY));
 
         request.setUser(user);
@@ -94,7 +94,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile getByToken() {
-        return profileRepository.findByUserId(userContextFacade.findByToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY)).getId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY));
+        return profileRepository.findByUserId(userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY)).getId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY));
     }
 
 }

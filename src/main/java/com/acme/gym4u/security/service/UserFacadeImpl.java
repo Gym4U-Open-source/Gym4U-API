@@ -18,12 +18,12 @@ public class UserFacadeImpl implements UserContextFacade {
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
+    public Optional<User> findByUserId(Long userId) {
         return userService.getById(userId);
     }
 
     @Override
-    public Optional<User> findByToken() {
+    public Optional<User> findByUserToken() {
         Long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         return userService.getById(userId);
     }

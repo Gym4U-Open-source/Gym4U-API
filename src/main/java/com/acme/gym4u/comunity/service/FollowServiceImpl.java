@@ -25,8 +25,8 @@ public class FollowServiceImpl implements FollowService {
     }
     @Override
     public Follow create(CreateFollowResource resource) {
-        User coachUser = userContextFacade.findById(resource.getCoachId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY, resource.getCoachId()));
-        User normalUser = userContextFacade.findByToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY));
+        User coachUser = userContextFacade.findByUserId(resource.getCoachId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY, resource.getCoachId()));
+        User normalUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY));
 
         Follow follow = new Follow().withCoachUser(coachUser).withNormalUser(normalUser);
         return followRepository.save(follow);
@@ -44,8 +44,8 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public Follow createFollowerByCoachId(Long coachId) {
-        User coachUser = userContextFacade.findById(coachId).orElseThrow(() -> new ResourceNotFoundException(ENTITY, coachId));
-        User normalUser = userContextFacade.findByToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY));
+        User coachUser = userContextFacade.findByUserId(coachId).orElseThrow(() -> new ResourceNotFoundException(ENTITY, coachId));
+        User normalUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY));
 
         Follow follow = new Follow().withCoachUser(coachUser).withNormalUser(normalUser);
         return followRepository.save(follow);

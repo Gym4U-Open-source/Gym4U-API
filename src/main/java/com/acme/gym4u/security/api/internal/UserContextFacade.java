@@ -5,6 +5,6 @@ import com.acme.gym4u.security.domain.model.entity.User;
 import java.util.Optional;
 
 public interface UserContextFacade {
-    Optional<User> findById(Long id);
-    Optional<User> findByToken();
+    Optional<User> findByUserId(Long id);
+    Optional<User> findByUserToken();
 }
