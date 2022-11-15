@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration("ProfileMappingConfiguration")
 public class MappingConfiguration {
     @Bean
-    public ProfileMapper personMapper() { return new ProfileMapper(); }
+    public ProfileMapper profileMapper() { return new ProfileMapper(); }
 }
