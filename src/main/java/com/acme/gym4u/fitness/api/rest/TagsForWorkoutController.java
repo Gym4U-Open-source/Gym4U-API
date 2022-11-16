@@ -52,6 +52,11 @@ public class TagsForWorkoutController {
                 tagForWorkoutService.update(tagForWorkoutId, mapper.toModel(resource)));
     }
 
+    @DeleteMapping("{tagForWorkoutId}")
+    public ResponseEntity<?> deleteTagForWorkout(@PathVariable Long tagForWorkoutId){
+        return tagForWorkoutService.delete(tagForWorkoutId);
+    }
+
 
 
 }
