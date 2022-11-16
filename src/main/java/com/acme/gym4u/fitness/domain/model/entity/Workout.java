@@ -27,5 +27,5 @@ public class Workout extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tag_id", nullable = true)
-    private TagToWorkout tag;
+    private TagForWorkout tag;
 }

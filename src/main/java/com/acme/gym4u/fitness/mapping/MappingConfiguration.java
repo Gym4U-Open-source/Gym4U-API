@@ -10,4 +10,7 @@ public class MappingConfiguration {
 
     @Bean
     public ExerciseMapper exerciseMapper() { return new ExerciseMapper();}
+
+    @Bean
+    public TagForWorkoutMapper tagForWorkoutMapper() { return new TagForWorkoutMapper();}
 }

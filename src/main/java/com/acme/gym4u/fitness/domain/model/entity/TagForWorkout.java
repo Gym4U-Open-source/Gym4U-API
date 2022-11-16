@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tagToWorkout")
-public class TagToWorkout extends AuditModel {
+@Table(name = "tagsForWorkout")
+public class TagForWorkout extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
