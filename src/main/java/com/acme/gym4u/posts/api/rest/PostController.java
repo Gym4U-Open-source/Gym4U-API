@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "api/v1/posts", produces = "application/json")
@@ -21,9 +22,9 @@ public class PostController {
     private final PostService postService;
     private final PostMapper mapper;
 
-    public PostController(PostService postService, PostMapper mapper) {
+    public PostController(PostService postService, PostMapper mapperP) {
         this.postService = postService;
-        this.mapper = mapper;
+        this.mapper = mapperP;
     }
 
     @GetMapping("/all")
@@ -32,13 +33,17 @@ public class PostController {
     }
 
     @GetMapping("/")
-    public Page<PostResource> getAllStudents(Pageable pageable) {
+    public Page<PostResource> getAllPostsPageable(Pageable pageable) {
         return mapper.modelListPage(postService.getAll(), pageable);
     }
 
-    @GetMapping("{postId}")
-    public PostResource getPostById(@PathVariable Long postId) {
-        return mapper.toResource(postService.getById(postId));
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        Optional<Post> o = postService.findByIdWithComments(id);
+        if(o.isPresent()){
+            return ResponseEntity.ok(o.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/create-post/")

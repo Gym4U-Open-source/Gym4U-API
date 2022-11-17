@@ -4,6 +4,8 @@ import com.acme.gym4u.shared.domain.model.AuditModel;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -11,35 +13,22 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "post_comment")
+@Table(name = "post_comments")
 public class PostComment extends AuditModel{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
+    @Column(name="post_id")
+    private Long postId;
+
+    @NotNull
+    @NotBlank
+    @Column(name="review")
     private String review;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "post_id")
-    private Post post;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (!(o instanceof PostComment))
-            return false;
-
-        return
-                id != null &&
-                        id.equals(((PostComment) o).getId());
-    }
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 
 }

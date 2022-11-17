@@ -1,6 +1,7 @@
 package com.acme.gym4u.posts.mapping;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
+import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.posts.resource.CreatePostResource;
 import com.acme.gym4u.posts.resource.PostResource;
 import com.acme.gym4u.posts.resource.UpdatePostResource;
@@ -16,26 +17,26 @@ import java.util.List;
 public class PostMapper implements Serializable {
 
     @Autowired
-    EnhancedModelMapper mapper;
+    EnhancedModelMapper mapperP;
 
     public List<PostResource> toResources(List<Post> modelList){
-        return mapper.mapList(modelList, PostResource.class);
+        return mapperP.mapList(modelList, PostResource.class);
     }
 
     public PostResource toResource(Post model){
-        return mapper.map(model, PostResource.class);
+        return mapperP.map(model, PostResource.class);
     }
 
     public Page<PostResource> modelListPage(List<Post> modelList, Pageable pageable){
-        return new PageImpl<>(mapper.mapList(modelList,
+        return new PageImpl<>(mapperP.mapList(modelList,
                 PostResource.class), pageable, modelList.size());
     }
 
     public Post toModel(CreatePostResource resource){
-        return mapper.map(resource, Post.class);
+        return mapperP.map(resource, Post.class);
     }
 
     public Post toModel(UpdatePostResource resource){
-        return  mapper.map(resource, Post.class);
+        return  mapperP.map(resource, Post.class);
     }
 }

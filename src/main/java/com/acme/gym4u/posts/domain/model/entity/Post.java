@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class Post extends AuditModel{
 
     @Id
@@ -42,19 +42,19 @@ public class Post extends AuditModel{
     private String urlImage;
 
     @OneToMany(
-            mappedBy = "post",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+
     )
+    @JoinColumn(name = "post_id")
     private List<PostComment> comments = new ArrayList<>();
 
     public void addComment(PostComment comment) {
         comments.add(comment);
-        comment.setPost(this);
     }
 
     public void removeComment(PostComment comment) {
         comments.remove(comment);
-        comment.setPost(null);
     }
 }

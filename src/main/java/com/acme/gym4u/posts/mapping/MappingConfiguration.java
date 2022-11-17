@@ -12,4 +12,9 @@ public class MappingConfiguration {
         return new PostMapper();
     }
 
+    @Bean
+    public PostCommentMapper postCommentMapper(){
+        return new PostCommentMapper();
+    }
+
 }
