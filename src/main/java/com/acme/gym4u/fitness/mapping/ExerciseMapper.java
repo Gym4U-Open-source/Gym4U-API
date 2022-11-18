@@ -1,10 +1,8 @@
 package com.acme.gym4u.fitness.mapping;
 
 import com.acme.gym4u.fitness.domain.model.entity.Exercise;
-import com.acme.gym4u.fitness.domain.model.entity.Tag;
 import com.acme.gym4u.fitness.resource.CreateExerciseResource;
 import com.acme.gym4u.fitness.resource.ExerciseResource;
-import com.acme.gym4u.fitness.resource.TagResource;
 import com.acme.gym4u.fitness.resource.UpdateExerciseResource;
 import com.acme.gym4u.shared.mapping.EnhancedModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
