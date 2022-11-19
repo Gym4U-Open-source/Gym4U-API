@@ -1,6 +1,10 @@
 package com.acme.gym4u.fitness.domain.model.entity;
 
+import com.acme.gym4u.fitness.domain.model.enumeration.Aproaches;
+import com.acme.gym4u.fitness.domain.model.enumeration.Categories;
 import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,18 +19,17 @@ import javax.validation.constraints.Size;
 @With
 @Entity
 @Table(name = "exercises")
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class Exercise extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = true)
-    private Category category;
+    @JoinColumn(name = "category", nullable = false)
+    private Categories category;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "aproach_id", nullable = true)
-    private Aproach aproach;
+    @JoinColumn(name = "approach", nullable = false)
+    private Aproaches aproach;
 
     @NotNull
     @NotBlank
@@ -39,6 +42,7 @@ public class Exercise extends AuditModel {
     private String assetUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id", nullable = true)
+    @JoinColumn(name = "tag_id", nullable = false)
+    @JsonIgnore
     private Tag tag;
 }
