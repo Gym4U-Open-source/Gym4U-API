@@ -50,7 +50,7 @@ public class WorkoutsController {
                         mapper.toModel(resource)));
     }
 
-    @DeleteMapping("{workoutId")
+    @DeleteMapping("{workoutId}")
     public ResponseEntity<?> deleteWorkout(@PathVariable Long workoutId){
         return workoutService.delete(workoutId);
     }
