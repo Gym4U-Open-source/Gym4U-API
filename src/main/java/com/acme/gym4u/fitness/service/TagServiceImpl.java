@@ -75,8 +75,8 @@ public class TagServiceImpl implements TagService {
             throw new ResourceValidationException(ENTITY,
                     "An tag with the same name already exists.");
 
-        return tagRepository.findById(tagId).map(student ->
-                        tagRepository.save(student
+        return tagRepository.findById(tagId).map(element ->
+                        tagRepository.save(element
                                 .withName(tag.getName())))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, tagId));
 
