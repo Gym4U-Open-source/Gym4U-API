@@ -10,4 +10,6 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Follow> findByCoachUserId(Long coachId);
     Page<Follow> findByCoachUserId(Long coachId, Pageable pageable);
+
+    Follow findByNormalUserId(Long normalUserId);
 }

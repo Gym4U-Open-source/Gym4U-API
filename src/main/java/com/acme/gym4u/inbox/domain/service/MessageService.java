@@ -11,8 +11,11 @@ public interface MessageService {
     List<Message> getAll();
     Page<Message> getAll(Pageable pageable);
     Message getById(Long messageId);
-    Message create(Long userId, Long messageUserId ,Message message);
-
+    Message create(Long toUserId, Long fromUserId ,Message message);
     Message update(Long messageId, Message request);
     ResponseEntity<?> delete(Long messageId);
+
+    // Messages from user id
+    List<Message> getAllFromUserId();
+    Page<Message> getAllFromUserId(Pageable pageable);
 }

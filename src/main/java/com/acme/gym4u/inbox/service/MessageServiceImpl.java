@@ -3,6 +3,7 @@ package com.acme.gym4u.inbox.service;
 import com.acme.gym4u.inbox.domain.model.entity.Message;
 import com.acme.gym4u.inbox.domain.persistence.MessageRepository;
 import com.acme.gym4u.inbox.domain.service.MessageService;
+import com.acme.gym4u.security.api.internal.UserContextFacade;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.security.domain.persistence.UserRepository;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
@@ -29,10 +30,13 @@ public class MessageServiceImpl implements MessageService {
 
     private final Validator validator;
 
-    public MessageServiceImpl(UserRepository userRepository, MessageRepository messageRepository, Validator validator) {
+    private final UserContextFacade userContextFacade;
+
+    public MessageServiceImpl(UserRepository userRepository, MessageRepository messageRepository, Validator validator, UserContextFacade userContextFacade) {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.validator = validator;
+        this.userContextFacade = userContextFacade;
     }
 
     @Override
@@ -54,20 +58,20 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message create(Long userId,Long messageUserId, Message message) {
+    public Message create(Long toUserId,Long fromUserId, Message message) {
 
         Set<ConstraintViolation<Message>> violations=validator.validate(message);
         if(!violations.isEmpty())
             throw  new ResourceValidationException(ENTITY,violations);
 
-        User user= userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User",userId));
+        User user= userRepository.findById(toUserId)
+                .orElseThrow(()->new ResourceNotFoundException("USER", toUserId));
 
-        message.setUser(user);
+        message.setToUser(user);
 
-        User messageUser= userRepository.findById(messageUserId)
-                .orElseThrow(()->new ResourceNotFoundException("User",messageUserId));
-        message.setMessageUser(messageUser);
+        User messageUser= userRepository.findById(fromUserId)
+                .orElseThrow(()->new ResourceNotFoundException("User",fromUserId));
+        message.setFromUser(messageUser);
 
         return messageRepository.save(message);
     }
@@ -81,7 +85,7 @@ public class MessageServiceImpl implements MessageService {
 
         return messageRepository.findById(messageId).map(message ->
                 messageRepository.save(message.withMessage(request.getMessage())
-                        .withUser(request.getUser())
+                        .withToUser(request.getToUser())
                         .withMessage(request.getMessage()))).orElseThrow(() -> new ResourceNotFoundException(ENTITY, messageId));
     }
 
@@ -91,5 +95,17 @@ public class MessageServiceImpl implements MessageService {
             messageRepository.delete(message);
             return ResponseEntity.ok().build();
         }).orElseThrow(()->new ResourceNotFoundException(ENTITY, messageId));
+    }
+
+    @Override
+    public List<Message> getAllFromUserId() {
+        User loggedUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("USER"));
+        return messageRepository.findAllByFromUserIdOrToUserId(loggedUser.getId(), loggedUser.getId());
+    }
+
+    @Override
+    public Page<Message> getAllFromUserId(Pageable pageable) {
+        User loggedUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("USER"));
+        return messageRepository.findAllByFromUserIdOrToUserId(loggedUser.getId(), loggedUser.getId(), pageable);
     }
 }

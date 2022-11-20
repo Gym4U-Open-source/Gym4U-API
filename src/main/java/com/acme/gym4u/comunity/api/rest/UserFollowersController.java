@@ -25,6 +25,11 @@ public class UserFollowersController {
         return mapper.modelListPage(followService.getAllFollowersByCoachId(coachId), pageable);
     }
 
+    @GetMapping("/follow")
+    public FollowResource getUserFollow(@PathVariable Long coachId) {
+        return mapper.toResource(followService.getByNormalUseId(coachId));
+    }
+
     @PostMapping
     public FollowResource createFollowerByCoachId(@PathVariable Long coachId) {
         return mapper.toResource(followService.createFollowerByCoachId(coachId));

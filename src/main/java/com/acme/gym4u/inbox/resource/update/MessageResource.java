@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MessageResource {
     private Long id;
-    private Long userId;
-    private Long messageUserId;
+    private Long toUserId;
+    private Long fromUserId;
     private String message;
 }

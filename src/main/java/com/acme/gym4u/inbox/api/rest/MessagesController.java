@@ -35,10 +35,15 @@ public class MessagesController {
         return mapper.toResource(messageService.getById(messageId));
     }
 
-    @PostMapping("user/{userId}/from_user/{messageUserId}")
-    public MessageResource createMessage(@PathVariable Long userId,@PathVariable Long messageUserId,
+    @GetMapping("from-user")
+    public Page<MessageResource> getAllMessagesFromUserIdOrToUserId(Pageable pageable) {
+        return mapper.modelListPage(messageService.getAllFromUserId(), pageable);
+    }
+
+    @PostMapping("to-user/{toUserId}/from-user/{fromUserId}")
+    public MessageResource createMessage(@PathVariable Long toUserId,@PathVariable Long fromUserId,
                                          @Valid @RequestBody CreateMessageResource resource){
-        return mapper.toResource(messageService.create(userId,messageUserId, mapper.toModel(resource)));
+        return mapper.toResource(messageService.create(toUserId,fromUserId, mapper.toModel(resource)));
     }
 
     @PutMapping("{messageId}")
