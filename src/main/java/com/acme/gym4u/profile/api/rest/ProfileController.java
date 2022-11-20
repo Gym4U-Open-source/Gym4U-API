@@ -1,5 +1,8 @@
 package com.acme.gym4u.profile.api.rest;
 
+import com.acme.gym4u.posts.domain.model.entity.Post;
+import com.acme.gym4u.posts.domain.service.PostService;
+import com.acme.gym4u.profile.domain.model.entity.Profile;
 import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;
 import com.acme.gym4u.profile.resource.CreateProfileResource;
@@ -11,15 +14,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "api/v1/profiles", produces = "application/json")
 public class ProfileController {
     private final ProfileService profileService;
+    private final PostService postService;
     private final ProfileMapper mapper;
 
-    public ProfileController(ProfileService profileService, ProfileMapper mapper) {
+    public ProfileController(ProfileService profileService, ProfileMapper mapper, PostService postService) {
         this.profileService = profileService;
         this.mapper = mapper;
+        this.postService = postService;
     }
 
     @GetMapping("user")
@@ -33,10 +41,22 @@ public class ProfileController {
         return mapper.modelListPage(profileService.getAll(), pageable);
     }
 
+    //CLINDER
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        Optional<Profile> o = Optional.ofNullable(profileService.getById(id));
+        if(o.isPresent()){
+            return ResponseEntity.ok(o.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("{profileId}")
     public ProfileResource getProfileById(@PathVariable Long profileId) {
         return mapper.toResource(profileService.getById(profileId));
     }
+
+
 
     @PostMapping
     public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
@@ -61,4 +81,6 @@ public class ProfileController {
         // DELETE METHOD IMPLEMENTED
         return profileService.delete(profileId);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.acme.gym4u.security.domain.model.entity;
 
+import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.profile.domain.model.entity.Profile;
 import com.acme.gym4u.security.domain.model.enumns.Focus;
 import com.acme.gym4u.shared.domain.model.AuditModel;
@@ -11,7 +12,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -41,6 +44,7 @@ public class User extends AuditModel {
     @Size(max = 120)
     private String password;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -48,10 +52,10 @@ public class User extends AuditModel {
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(
+
             targetEntity = Profile.class,
             mappedBy = "user"
     )
-    @JsonIgnore
     private Profile profile;
 
     public User(String username, String email, String password) {

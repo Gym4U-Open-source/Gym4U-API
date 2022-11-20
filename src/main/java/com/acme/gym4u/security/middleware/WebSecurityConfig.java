@@ -65,13 +65,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/v1/gym4u-api-docs",
                 "/gym4u-api-docs/*",
                 "/gym4u-api-docs",
-                "/swagger-ui/*",
+                "/swagger-ui/**",
                 "/v2/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",
-                "/webjars/**"
+                "/webjars/**",
+                "/swagger-ui/",
+                "/v3/api-docs/",
+                "/h2-console/**"
         );
     }
 }
