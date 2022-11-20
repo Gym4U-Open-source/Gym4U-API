@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     ResponseEntity<?> authenticate(AuthenticateRequest request);
     ResponseEntity<?> register(RegisterRequest request);
     List<User> getAll();
+
+    Optional<User> getById(Long userId);
 }

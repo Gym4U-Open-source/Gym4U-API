@@ -51,7 +51,7 @@ public class TagsController {
     }
 
     @PutMapping("{tagId}")
-    public TagResource tagStudent(
+    public TagResource updateTag(
             @PathVariable Long tagId,
             @RequestBody UpdateTagResource resource) {
         return mapper.toResource(

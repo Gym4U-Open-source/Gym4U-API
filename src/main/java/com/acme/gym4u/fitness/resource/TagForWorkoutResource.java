@@ -1,4 +1,4 @@
-package com.acme.gym4u.profile.resource;
+package com.acme.gym4u.fitness.resource;
 
 import lombok.*;
 
@@ -7,9 +7,7 @@ import lombok.*;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileResource {
+public class TagForWorkoutResource {
     private Long id;
     private String name;
-    private String lastName;
-    private Long UserId;
 }

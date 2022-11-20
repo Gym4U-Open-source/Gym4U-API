@@ -11,9 +11,7 @@ import javax.validation.constraints.Size;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateTagResource {
-    private Long id;
-
+public class CreateTagForWorkoutResource {
     @NotNull
     @NotBlank
     @Size(max = 60)

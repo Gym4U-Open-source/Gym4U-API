@@ -1,4 +1,4 @@
-package com.acme.gym4u.profile.interfaces.rest;
+package com.acme.gym4u.profile.api.rest;
 
 import com.acme.gym4u.profile.domain.service.ProfileService;
 import com.acme.gym4u.profile.mapping.ProfileMapper;
@@ -22,13 +22,18 @@ public class ProfileController {
         this.mapper = mapper;
     }
 
+    @GetMapping("user")
+    public ProfileResource getProfileByToken() {
+        return mapper.toResource(profileService.getByToken());
+    }
+
     @GetMapping
     public Page<ProfileResource> getAllProfiles(Pageable pageable) {
         // GET METHOD IMPLEMENTED
         return mapper.modelListPage(profileService.getAll(), pageable);
     }
 
-    @GetMapping("{personId}")
+    @GetMapping("{profileId}")
     public ProfileResource getProfileById(@PathVariable Long profileId) {
         return mapper.toResource(profileService.getById(profileId));
     }

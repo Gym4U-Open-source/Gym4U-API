@@ -1,7 +1,5 @@
 package com.acme.gym4u.shared.mapping;
 
-import com.acme.gym4u.security.mapping.RoleMapper;
-import com.acme.gym4u.security.mapping.UserMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,10 +10,4 @@ public class MappingConfiguration {
     public EnhancedModelMapper modelMapper() {
         return new EnhancedModelMapper();
     }
-
-    @Bean
-public UserMapper userMapper() { return new UserMapper();}
-
-    @Bean
-    public RoleMapper roleMapper() { return new RoleMapper();}
 }
