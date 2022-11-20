@@ -27,9 +27,15 @@ public class Message extends AuditModel {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JoinColumn(name = "to_user_id",referencedColumnName = "id")
     @JsonIgnore
-    private User user;
+    private User toUser;
+
+    @ManyToOne()
+    @JoinColumn(name = "from_user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private User fromUser;
+
 
     @NotBlank
     @NotNull

@@ -14,8 +14,6 @@ import javax.validation.constraints.Size;
 @With
 public class CreateMessageResource {
 
-    private Long id;
-
     @NotNull
     @NotBlank
     @Size(max = 200)

@@ -10,6 +10,8 @@ public class UpdateMessageResource {
 
     private Long userId;
 
+    private Long messageUserId;
+
     @NotBlank
     @NotNull
     @Size(max = 200)
