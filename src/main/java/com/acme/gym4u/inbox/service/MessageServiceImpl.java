@@ -3,6 +3,7 @@ package com.acme.gym4u.inbox.service;
 import com.acme.gym4u.inbox.domain.model.entity.Message;
 import com.acme.gym4u.inbox.domain.persistence.MessageRepository;
 import com.acme.gym4u.inbox.domain.service.MessageService;
+import com.acme.gym4u.security.api.internal.UserContextFacade;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.security.domain.persistence.UserRepository;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
@@ -28,11 +29,13 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     private final Validator validator;
+    private final UserContextFacade userContextFacade;
 
-    public MessageServiceImpl(UserRepository userRepository, MessageRepository messageRepository, Validator validator) {
+    public MessageServiceImpl(UserRepository userRepository, MessageRepository messageRepository, Validator validator, UserContextFacade userContextFacade) {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.validator = validator;
+        this.userContextFacade = userContextFacade;
     }
 
     @Override
@@ -54,19 +57,19 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message create(Long userId,Long messageUserId, Message message) {
+    public Message create(Long toUserId, Message message) {
 
         Set<ConstraintViolation<Message>> violations=validator.validate(message);
         if(!violations.isEmpty())
             throw  new ResourceValidationException(ENTITY,violations);
 
-        User user= userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User",userId));
+        User user= userContextFacade.findByUserId(toUserId)
+                .orElseThrow(()->new ResourceNotFoundException("User",toUserId));
 
         message.setUser(user);
 
-        User messageUser= userRepository.findById(messageUserId)
-                .orElseThrow(()->new ResourceNotFoundException("User",messageUserId));
+        User messageUser= userContextFacade.findByUserToken()
+                .orElseThrow(()->new ResourceNotFoundException("User"));
         message.setMessageUser(messageUser);
 
         return messageRepository.save(message);
