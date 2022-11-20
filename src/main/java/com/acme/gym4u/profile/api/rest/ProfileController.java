@@ -35,6 +35,11 @@ public class ProfileController {
         return mapper.toResource(profileService.getByToken());
     }
 
+    @GetMapping("user")
+    public ProfileResource getProfileByToken() {
+        return mapper.toResource(profileService.getByToken());
+    }
+
     @GetMapping
     public Page<ProfileResource> getAllProfiles(Pageable pageable) {
         // GET METHOD IMPLEMENTED
