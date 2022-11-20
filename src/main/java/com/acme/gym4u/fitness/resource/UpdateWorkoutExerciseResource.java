@@ -13,19 +13,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateWorkoutExerciseResource {
-
     private Long id;
-
     private Workout workout;
-
-
     private Exercise exercise;
-
-    @NotNull
-    @NotBlank
     private Long repetitions;
-
-    @NotNull
-    @NotBlank
     private Long timePerRepeat;
 }
