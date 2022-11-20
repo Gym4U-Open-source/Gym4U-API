@@ -1,6 +1,7 @@
 package com.acme.gym4u.fitness.domain.model.entity;
 
 import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -15,19 +16,26 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @With
 @Entity
-@Table(name = "workouts")
+@Table(name = "workoutsExercises")
 @JsonInclude(JsonInclude.Include.ALWAYS)
-public class Workout extends AuditModel {
+public class WorkoutExercise extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotBlank
-    @Size(max=50)
-    private String name;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id", nullable = true)
-    private TagForWorkout tag;
+    @JoinColumn(name = "workout_id", nullable = false)
+    @JsonIgnore
+    private Workout workout;
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "exercise_id", nullable = false)
+    @JsonIgnore
+    private Exercise exercise;
+
+    @Column(name = "repetitions", nullable = false)
+    private Long repetitions;
+
+    @Column(name = "timePerRepeat", nullable = false)
+    private Long timePerRepeat;
 }
