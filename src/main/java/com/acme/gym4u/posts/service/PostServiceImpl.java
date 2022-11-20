@@ -113,4 +113,10 @@ public class PostServiceImpl implements PostService {
         }
         return Optional.empty();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Post> listPostsByIds(Iterable<Long> ids) {
+        return postRepository.findAllById(ids);
+    }
 }

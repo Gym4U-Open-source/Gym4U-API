@@ -9,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 
 public class PostResource {
+
     private Long id;
+    private Long profileId;
     private String title;
     private String description;
     private String urlImage;

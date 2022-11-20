@@ -19,4 +19,8 @@ public interface PostService {
     ResponseEntity<?> delete(Long postId);
 
     Optional<Post> findByIdWithComments(Long id);
+
+    List<Post> listPostsByIds(Iterable<Long> ids);
+
+
 }

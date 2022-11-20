@@ -23,9 +23,11 @@ import java.util.List;
 public class Post extends AuditModel{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name ="profile_id",nullable = false)
+    private Long profileId;
 
     @NotBlank
     @NotNull
@@ -49,6 +51,7 @@ public class Post extends AuditModel{
     )
     @JoinColumn(name = "post_id")
     private List<PostComment> comments = new ArrayList<>();
+
 
     public void addComment(PostComment comment) {
         comments.add(comment);

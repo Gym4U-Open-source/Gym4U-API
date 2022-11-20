@@ -36,6 +36,11 @@ public class PostController {
     public Page<PostResource> getAllPostsPageable(Pageable pageable) {
         return mapper.modelListPage(postService.getAll(), pageable);
     }
+    //----------------------
+    @GetMapping(value="/posts-by-profile")
+    public List<Post> getPostsByProfile(@RequestParam Iterable<Long> ids){
+        return postService.listPostsByIds(ids);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
@@ -67,5 +72,7 @@ public class PostController {
             @PathVariable Long postId) {
         return postService.delete(postId);
     }
+
+
 
 }

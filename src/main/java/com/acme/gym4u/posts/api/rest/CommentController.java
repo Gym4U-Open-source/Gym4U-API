@@ -27,6 +27,7 @@ public class CommentController {
     public List<PostCommentResource> getAllComments() {
         return mapper.toResources(commentService.getAll());
     }
+
     @GetMapping("/")
     public Page<PostCommentResource> getAllCommentsPageable(Pageable pageable) {
         return mapper.modelListPage(commentService.getAll(), pageable);

@@ -7,4 +7,10 @@ import org.springframework.context.annotation.Configuration;
 public class MappingConfiguration {
     @Bean
     public TagMapper tagMapper() { return new TagMapper();}
+
+    @Bean
+    public ExerciseMapper exerciseMapper() { return new ExerciseMapper();}
+
+    @Bean
+    public TagForWorkoutMapper tagForWorkoutMapper() { return new TagForWorkoutMapper();}
 }

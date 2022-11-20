@@ -1,4 +1,4 @@
-package com.acme.gym4u.posts.resource;
+package com.acme.gym4u.fitness.resource;
 
 import lombok.*;
 
@@ -11,15 +11,9 @@ import javax.validation.constraints.Size;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreatePostResource {
-
-    private Long profileId;
+public class CreateTagForWorkoutResource {
     @NotNull
     @NotBlank
-    @Size(max = 120)
-    private String title;
-
-    private String description;
-
-    private String urlImage;
+    @Size(max = 60)
+    private String name;
 }
