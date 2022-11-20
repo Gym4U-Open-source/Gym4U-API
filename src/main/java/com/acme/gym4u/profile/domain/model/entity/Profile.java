@@ -1,6 +1,7 @@
 package com.acme.gym4u.profile.domain.model.entity;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
+import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +13,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,10 +47,18 @@ public class Profile extends AuditModel {
     @JsonIgnore
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
-    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(mappedBy = "profile",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
+
+    public void addPost(Post post) {
+        posts.add(post);
+        post.setProfile(this);
+    }
+
+    public void removeComment(PostComment comment) {
+        posts.remove(comment);
+        comment.setPost(null);
+    }
 }

@@ -1,6 +1,7 @@
 package com.acme.gym4u.posts.api.rest;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
+import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.posts.domain.service.PostService;
 import com.acme.gym4u.posts.mapping.PostMapper;
 import com.acme.gym4u.posts.resource.PostResource;
@@ -28,36 +29,30 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public List<PostResource> getAllPosts() {
-        return mapper.toResources(postService.getAll());
+    public List<Post> getAllPosts() {
+        return postService.getAll();
     }
 
     @GetMapping("/")
     public Page<PostResource> getAllPostsPageable(Pageable pageable) {
         return mapper.modelListPage(postService.getAll(), pageable);
     }
-    //----------------------
-    @GetMapping(value="/posts-by-profile")
-    public List<Post> getPostsByProfile(@RequestParam Iterable<Long> ids){
-        return postService.listPostsByIds(ids);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        Optional<Post> o = postService.findByIdWithComments(id);
+        Optional<Post> o = Optional.ofNullable(postService.getById(id));
         if(o.isPresent()){
             return ResponseEntity.ok(o.get());
         }
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/create-post/")
-    public ResponseEntity<PostResource> createPost(
-            @RequestBody CreatePostResource resource) {
-        return new ResponseEntity<> (mapper.toResource(
-                postService.create(mapper.toModel(resource))),
-                HttpStatus.CREATED);
+    @PostMapping("/create-post/{postId}")
+    public Post createPost(
+            @RequestBody Post resource, @PathVariable Long postId) {
+        return postService.create(resource,postId);
     }
+
 
     @PutMapping("{postId}")
     public PostResource updatePost(
@@ -72,7 +67,4 @@ public class PostController {
             @PathVariable Long postId) {
         return postService.delete(postId);
     }
-
-
-
 }

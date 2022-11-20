@@ -7,6 +7,8 @@ import com.acme.gym4u.posts.domain.persistence.PostCommentRepository;
 import com.acme.gym4u.posts.domain.persistence.PostRepository;
 import com.acme.gym4u.posts.domain.service.PostService;
 import com.acme.gym4u.posts.mapping.PostCommentMapper;
+import com.acme.gym4u.profile.domain.model.entity.Profile;
+import com.acme.gym4u.profile.domain.persistence.ProfileRepository;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +28,22 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
-    CommentController commentController;
+
     private static final String ENTITY = "Post";
     private final PostRepository postRepository;
-    private final PostCommentRepository commentRepository;
+
+    @Autowired
+    private  ProfileRepository profileRepository;
+
     private final Validator validator;
 
-    private final PostCommentMapper mapper;
 
 
-    public PostServiceImpl(PostRepository postRepository, PostCommentRepository commentRepository, Validator validator,PostCommentMapper mapper ) {
+
+    public PostServiceImpl(PostRepository postRepository, PostCommentRepository commentRepository, Validator validator ) {
         this.postRepository = postRepository;
-        this.commentRepository = commentRepository;
         this.validator = validator;
-        this.mapper = mapper;
+
     }
 
     @Override
@@ -64,13 +67,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post create(Post post) {
+    public Post create(Post post,Long profileId) {
+        Profile o = profileRepository.getById(profileId);
         // Constraints validation
         Set<ConstraintViolation<Post>> violations = validator.validate(post);
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
+        post.setProfile(o);
         return postRepository.save(post);
     }
+
+
 
     @Override
     @Transactional
@@ -96,27 +103,5 @@ public class PostServiceImpl implements PostService {
             postRepository.delete(post);
             return  ResponseEntity.ok().build();
         }).orElseThrow(()->new ResourceNotFoundException(ENTITY, postId));
-    }
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Post> findByIdWithComments(Long id) {
-        Optional<Post> o = postRepository.findById(id);
-        if(o.isPresent()){
-            Post post = o.get();
-            if(!post.getComments().isEmpty()){
-                List<Long> ids = post.getComments().stream().map(
-                        comments -> comments.getId()).collect(Collectors.toList());
-                List<PostComment> comments = commentController.getCommentsByPost(ids);
-                post.setComments(comments);
-            }
-            return Optional.of(post);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Post> listPostsByIds(Iterable<Long> ids) {
-        return postRepository.findAllById(ids);
     }
 }

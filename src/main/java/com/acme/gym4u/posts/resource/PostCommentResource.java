@@ -9,6 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 public class PostCommentResource {
     private Long id;
-    private Long postId;
     private String review;
 }

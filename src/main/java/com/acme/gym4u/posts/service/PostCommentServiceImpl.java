@@ -1,10 +1,14 @@
 package com.acme.gym4u.posts.service;
 
+import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.posts.domain.persistence.PostCommentRepository;
+import com.acme.gym4u.posts.domain.persistence.PostRepository;
 import com.acme.gym4u.posts.domain.service.PostCommentService;
+import com.acme.gym4u.posts.domain.service.PostService;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,9 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     private final PostCommentRepository commentRepository;
     private final Validator validator;
+
+    @Autowired
+    private PostRepository postRepository;
 
     public PostCommentServiceImpl(PostCommentRepository commentRepository, Validator validator) {
         this.commentRepository = commentRepository;
@@ -51,11 +58,12 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     @Transactional
-    public PostComment create(PostComment comment) {
-        // Constraints validation
+    public PostComment create( PostComment comment,Long postId) {
+        Post o = postRepository.getReferenceById(postId);
         Set<ConstraintViolation<PostComment>> violations = validator.validate(comment);
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
+        comment.setPost(o);
         return commentRepository.save(comment);
     }
 

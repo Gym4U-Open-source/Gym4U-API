@@ -107,7 +107,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.findByUserId(userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException(ENTITY)).getId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY));
     }
 
-    @Override
+    /*@Override
     @Transactional(readOnly = true)
     public Optional<Profile> findByIdWithPosts(Long id) {
         Optional<Profile> o = profileRepository.findById(id);
@@ -117,11 +117,11 @@ public class ProfileServiceImpl implements ProfileService {
                 List<Long> ids = profile.getPosts().stream().map(
                         posts -> posts.getId()).collect(Collectors.toList());
                 List<Post> posts = postController.getPostsByProfile(ids);
-                profile.setPosts(posts);
+                profile.setPosts((Set<Post>) posts);
             }
             return Optional.of(profile);
         }
         return Optional.empty();
-    }
+    }*/
 
 }

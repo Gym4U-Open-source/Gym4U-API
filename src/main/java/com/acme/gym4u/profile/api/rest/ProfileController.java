@@ -35,15 +35,20 @@ public class ProfileController {
         return mapper.toResource(profileService.getByToken());
     }
 
-    @GetMapping("user")
-    public ProfileResource getProfileByToken() {
-        return mapper.toResource(profileService.getByToken());
-    }
-
     @GetMapping
     public Page<ProfileResource> getAllProfiles(Pageable pageable) {
         // GET METHOD IMPLEMENTED
         return mapper.modelListPage(profileService.getAll(), pageable);
+    }
+
+    //CLINDER
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        Optional<Profile> o = Optional.ofNullable(profileService.getById(id));
+        if(o.isPresent()){
+            return ResponseEntity.ok(o.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("{profileId}")
@@ -51,15 +56,7 @@ public class ProfileController {
         return mapper.toResource(profileService.getById(profileId));
     }
 
-    //clinder
-    @GetMapping("/details/{profileId}")
-    public ResponseEntity<?> getProfileDetail(@PathVariable Long profileId) {
-        Optional<Profile> o = profileService.findByIdWithPosts(profileId);
-        if(o.isPresent()){
-            return ResponseEntity.ok(o.get());
-        }
-        return ResponseEntity.notFound().build();
-    }
+
 
     @PostMapping
     public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {

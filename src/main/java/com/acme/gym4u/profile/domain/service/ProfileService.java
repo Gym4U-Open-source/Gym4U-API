@@ -21,5 +21,5 @@ public interface ProfileService {
     Profile getByToken();
 
     //clinder
-    Optional<Profile> findByIdWithPosts(Long id);
+    //Optional<Profile> findByIdWithPosts(Long id);
 }

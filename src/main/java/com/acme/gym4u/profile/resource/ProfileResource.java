@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileResource {
+
     private Long id;
     private String name;
     private String lastName;

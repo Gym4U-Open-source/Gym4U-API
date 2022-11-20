@@ -14,13 +14,13 @@ public interface PostService {
     List<Post> getAll();
     Page<Post> getAll(Pageable pageable);
     Post getById(Long postId);
-    Post create(Post post);
+    Post create(Post post, Long profileId);
     Post update(Long postId, Post request);
     ResponseEntity<?> delete(Long postId);
 
-    Optional<Post> findByIdWithComments(Long id);
+   // Optional<Post> findByIdWithComments(Long id);
 
-    List<Post> listPostsByIds(Iterable<Long> ids);
+    //List<Post> listPostsByIds(Iterable<Long> ids);
 
 
 }

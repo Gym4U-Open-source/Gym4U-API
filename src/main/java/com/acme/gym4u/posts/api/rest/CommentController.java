@@ -1,5 +1,6 @@
 package com.acme.gym4u.posts.api.rest;
 
+import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.posts.domain.service.PostCommentService;
 import com.acme.gym4u.posts.mapping.PostCommentMapper;
@@ -7,9 +8,11 @@ import com.acme.gym4u.posts.resource.PostCommentResource;
 import com.acme.gym4u.posts.resource.UpdatePostCommentResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 @RestController
@@ -24,8 +27,8 @@ public class CommentController {
     }
 
     @GetMapping("/all")
-    public List<PostCommentResource> getAllComments() {
-        return mapper.toResources(commentService.getAll());
+    public List<PostComment> getAllComments() {
+        return commentService.getAll();
     }
 
     @GetMapping("/")
@@ -34,13 +37,13 @@ public class CommentController {
     }
 
     @GetMapping("{commentId}")
-    public PostCommentResource getCommentById(@PathVariable Long commentId) {
-        return mapper.toResource(commentService.getById(commentId));
+    public PostComment getCommentById(@PathVariable Long commentId) {
+        return commentService.getById(commentId);
     }
 
-    @PostMapping("/create-comment/")
-    public PostComment createComment(@RequestBody PostComment resource) {
-      return commentService.create(resource);
+    @PostMapping(value="/{postId}")
+    public PostComment create( @RequestBody PostComment resource, @PathVariable Long postId) {
+        return commentService.create(resource,postId);
     }
 
     @DeleteMapping("{commentId}")
@@ -49,12 +52,12 @@ public class CommentController {
         return commentService.delete(commentId);
     }
 
-    @GetMapping(value="/comments-by-post")
+    @GetMapping("/comments-by-post")
     public List<PostComment> getCommentsByPost(@RequestParam Iterable<Long> ids){
         return commentService.listCommentsByIds(ids);
     }
 
-    @PutMapping(value="/update/{commentId}")
+    @PutMapping("/update/{commentId}")
     public PostCommentResource updateComment(
             @PathVariable Long commentId,
             @RequestBody UpdatePostCommentResource resource){

@@ -11,7 +11,7 @@ public interface PostCommentService {
     List<PostComment> getAll();
     Page<PostComment> getAll(Pageable pageable);
     PostComment getById(Long commentId);
-    PostComment create(PostComment post);
+    PostComment create( PostComment post,Long postId);
 
     PostComment update(Long postId, PostComment request);
     ResponseEntity<?> delete(Long commentId);
