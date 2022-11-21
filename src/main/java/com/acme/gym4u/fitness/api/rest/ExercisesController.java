@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(value = "api/v1/exercise", produces = "application/json")
+@RequestMapping(value = "api/v1/exercises", produces = "application/json")
 @Tag(name = "Exercises", description = "Create, read, update and delete exercises")
 public class ExercisesController {
     private final ExerciseService exerciseService;

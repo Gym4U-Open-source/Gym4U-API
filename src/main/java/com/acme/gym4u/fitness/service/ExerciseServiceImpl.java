@@ -77,7 +77,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                                 .withName(exercise.getName())
                                 .withCategory(exercise.getCategory())
                                 .withTag(exercise.getTag())
-                                .withAproach(exercise.getAproach())
+                                .withFocus(exercise.getFocus())
                                 .withAssetUrl(exercise.getAssetUrl())))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, exerciseId));
 

@@ -1,6 +1,7 @@
 package com.acme.gym4u.fitness.resource;
 
 import com.acme.gym4u.fitness.domain.model.entity.TagForWorkout;
+import com.acme.gym4u.fitness.domain.model.enumeration.TagForExercise;
 import lombok.*;
 
 @Getter
@@ -11,5 +12,7 @@ import lombok.*;
 public class WorkoutResource {
     private Long id;
     private String name;
-    private TagForWorkout tag;
+    private String content;
+    private String owner;
+    private TagForExercise tag;
 }

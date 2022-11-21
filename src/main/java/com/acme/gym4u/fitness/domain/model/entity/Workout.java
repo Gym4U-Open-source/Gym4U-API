@@ -1,5 +1,6 @@
 package com.acme.gym4u.fitness.domain.model.entity;
 
+import com.acme.gym4u.fitness.domain.model.enumeration.TagForExercise;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -27,7 +28,16 @@ public class Workout extends AuditModel {
     @Size(max=50)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id", nullable = true)
-    private TagForWorkout tag;
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String content;
+
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String owner;
+
+    @JoinColumn(name = "tag", nullable = false)
+    private TagForExercise tag;
 }

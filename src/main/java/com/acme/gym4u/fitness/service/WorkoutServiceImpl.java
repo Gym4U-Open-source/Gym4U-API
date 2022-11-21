@@ -73,6 +73,8 @@ public class WorkoutServiceImpl implements WorkoutService {
         return workoutRepository.findById(workoutId).map(element ->
                 workoutRepository.save(element
                         .withName(workout.getName())
+                        .withContent(workout.getContent())
+                        .withOwner(workout.getOwner())
                         .withTag(workout.getTag())))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, workoutId));
     }

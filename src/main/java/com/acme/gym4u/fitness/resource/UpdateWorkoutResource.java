@@ -1,6 +1,7 @@
 package com.acme.gym4u.fitness.resource;
 
 import com.acme.gym4u.fitness.domain.model.entity.TagForWorkout;
+import com.acme.gym4u.fitness.domain.model.enumeration.TagForExercise;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -20,5 +21,15 @@ public class UpdateWorkoutResource {
     @Size(max=50)
     private String name;
 
-    private TagForWorkout tag;
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String content;
+
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String owner;
+
+    private TagForExercise tag;
 }

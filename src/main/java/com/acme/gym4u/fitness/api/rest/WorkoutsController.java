@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "api/v1/workout", produces = "application/json")
+@RequestMapping(value = "api/v1/workouts", produces = "application/json")
 @Tag(name = "Workouts", description = "Create, read, update and delete workouts")
 public class WorkoutsController {
 

@@ -2,6 +2,7 @@ package com.acme.gym4u.fitness.domain.model.entity;
 
 import com.acme.gym4u.fitness.domain.model.enumeration.Aproaches;
 import com.acme.gym4u.fitness.domain.model.enumeration.Categories;
+import com.acme.gym4u.fitness.domain.model.enumeration.TagForExercise;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,8 +29,10 @@ public class Exercise extends AuditModel {
     @JoinColumn(name = "category", nullable = false)
     private Categories category;
 
-    @JoinColumn(name = "approach", nullable = false)
-    private Aproaches aproach;
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String focus;
 
     @NotNull
     @NotBlank
@@ -41,8 +44,6 @@ public class Exercise extends AuditModel {
     @Size(max=120)
     private String assetUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id", nullable = false)
-    @JsonIgnore
-    private Tag tag;
+    @JoinColumn(name = "tag", nullable = false)
+    private TagForExercise tag;
 }

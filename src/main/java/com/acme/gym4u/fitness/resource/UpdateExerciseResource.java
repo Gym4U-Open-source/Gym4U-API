@@ -4,6 +4,7 @@ package com.acme.gym4u.fitness.resource;
 import com.acme.gym4u.fitness.domain.model.entity.Tag;
 import com.acme.gym4u.fitness.domain.model.enumeration.Aproaches;
 import com.acme.gym4u.fitness.domain.model.enumeration.Categories;
+import com.acme.gym4u.fitness.domain.model.enumeration.TagForExercise;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -20,7 +21,11 @@ public class UpdateExerciseResource {
     private Long id;
 
     private Categories category;
-    private Aproaches aproach;
+
+    @NotNull
+    @NotBlank
+    @Size(max=50)
+    private String focus;
 
     @NotNull
     @NotBlank
@@ -32,5 +37,5 @@ public class UpdateExerciseResource {
     @Size(max=120)
     private String assetUrl;
 
-    private Tag tag;
+    private TagForExercise tag;
 }
