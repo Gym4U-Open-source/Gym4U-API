@@ -13,4 +13,10 @@ public class MappingConfiguration {
 
     @Bean
     public TagForWorkoutMapper tagForWorkoutMapper() { return new TagForWorkoutMapper();}
+
+    @Bean
+    public WorkoutMapper workoutMapper() { return new WorkoutMapper();}
+
+    @Bean
+    public WorkoutExerciseMapper workoutExerciseMapper() {return new WorkoutExerciseMapper();}
 }
