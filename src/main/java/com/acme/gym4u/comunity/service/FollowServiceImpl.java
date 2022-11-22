@@ -23,6 +23,7 @@ public class FollowServiceImpl implements FollowService {
         this.followRepository = followRepository;
         this.userContextFacade = userContextFacade;
     }
+
     @Override
     public Follow create(CreateFollowResource resource) {
         User coachUser = userContextFacade.findByUserId(resource.getCoachId()).orElseThrow(() -> new ResourceNotFoundException(ENTITY, resource.getCoachId()));
@@ -59,5 +60,10 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public Page<Follow> getAllFollowersByCoachId(Long coachId, Pageable pageable) {
         return followRepository.findByCoachUserId(coachId, pageable);
+    }
+
+    @Override
+    public Follow getByNormalUseId(Long normalUserId) {
+        return followRepository.findByNormalUserId(normalUserId);
     }
 }

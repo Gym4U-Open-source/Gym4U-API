@@ -29,6 +29,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     private final Validator validator;
+
     private final UserContextFacade userContextFacade;
 
     public MessageServiceImpl(UserRepository userRepository, MessageRepository messageRepository, Validator validator, UserContextFacade userContextFacade) {
@@ -57,20 +58,20 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message create(Long toUserId, Message message) {
+    public Message create(Long toUserId,Long fromUserId, Message message) {
 
         Set<ConstraintViolation<Message>> violations=validator.validate(message);
         if(!violations.isEmpty())
             throw  new ResourceValidationException(ENTITY,violations);
 
-        User user= userContextFacade.findByUserId(toUserId)
-                .orElseThrow(()->new ResourceNotFoundException("User",toUserId));
+        User user= userRepository.findById(toUserId)
+                .orElseThrow(()->new ResourceNotFoundException("USER", toUserId));
 
-        message.setUser(user);
+        message.setToUser(user);
 
-        User messageUser= userContextFacade.findByUserToken()
-                .orElseThrow(()->new ResourceNotFoundException("User"));
-        message.setMessageUser(messageUser);
+        User messageUser= userRepository.findById(fromUserId)
+                .orElseThrow(()->new ResourceNotFoundException("User",fromUserId));
+        message.setFromUser(messageUser);
 
         return messageRepository.save(message);
     }
@@ -84,7 +85,7 @@ public class MessageServiceImpl implements MessageService {
 
         return messageRepository.findById(messageId).map(message ->
                 messageRepository.save(message.withMessage(request.getMessage())
-                        .withUser(request.getUser())
+                        .withToUser(request.getToUser())
                         .withMessage(request.getMessage()))).orElseThrow(() -> new ResourceNotFoundException(ENTITY, messageId));
     }
 
@@ -94,5 +95,17 @@ public class MessageServiceImpl implements MessageService {
             messageRepository.delete(message);
             return ResponseEntity.ok().build();
         }).orElseThrow(()->new ResourceNotFoundException(ENTITY, messageId));
+    }
+
+    @Override
+    public List<Message> getAllFromUserId() {
+        User loggedUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("USER"));
+        return messageRepository.findAllByFromUserIdOrToUserId(loggedUser.getId(), loggedUser.getId());
+    }
+
+    @Override
+    public Page<Message> getAllFromUserId(Pageable pageable) {
+        User loggedUser = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("USER"));
+        return messageRepository.findAllByFromUserIdOrToUserId(loggedUser.getId(), loggedUser.getId(), pageable);
     }
 }

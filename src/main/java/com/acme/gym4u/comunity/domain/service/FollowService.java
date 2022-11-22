@@ -14,4 +14,6 @@ public interface FollowService {
     Follow createFollowerByCoachId(Long coachId);
     List<Follow> getAllFollowersByCoachId(Long coachId);
     Page<Follow> getAllFollowersByCoachId(Long coachId, Pageable pageable);
+
+    Follow getByNormalUseId(Long normalUserId);
 }
