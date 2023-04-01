@@ -19,7 +19,7 @@ public class Gym4UApplication extends SpringBootServletInitializer implements We
         SpringApplication.run(Gym4UApplication.class, args);
     }
 
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
@@ -28,7 +28,7 @@ public class Gym4UApplication extends SpringBootServletInitializer implements We
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);
-    }
+    }*/
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {

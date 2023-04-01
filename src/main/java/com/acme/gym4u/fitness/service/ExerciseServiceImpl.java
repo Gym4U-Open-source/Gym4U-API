@@ -1,14 +1,19 @@
 package com.acme.gym4u.fitness.service;
 
 import com.acme.gym4u.fitness.domain.model.entity.Exercise;
+import com.acme.gym4u.fitness.domain.model.entity.Tag;
 import com.acme.gym4u.fitness.domain.persistence.ExerciseRepository;
+import com.acme.gym4u.fitness.domain.persistence.TagRepository;
 import com.acme.gym4u.fitness.domain.service.ExerciseService;
+import com.acme.gym4u.security.api.internal.UserContextFacade;
+import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -21,10 +26,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     private static final String ENTITY = "Exercise";
     private final ExerciseRepository exerciseRepository;
     private final Validator validator;
+    private final UserContextFacade userContextFacade;
+    private final TagRepository tagRepository;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, Validator validator) {
+    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, Validator validator, UserContextFacade userContextFacade, TagRepository tagRepository) {
         this.exerciseRepository = exerciseRepository;
         this.validator = validator;
+        this.userContextFacade = userContextFacade;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -48,15 +57,22 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         Set<ConstraintViolation<Exercise>> violations = validator.validate(exercise);
 
-        if(!violations.isEmpty())
+        if (!violations.isEmpty()) {
             throw new ResourceValidationException(ENTITY, violations);
+        }
 
-        Exercise exerciseWithName = exerciseRepository.findByName(exercise.getName());
+        User user = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Tag tag = tagRepository.findById(exercise.getTag().getId()).orElseThrow(() -> new NotFoundException("Tag not found."));
 
-        if(exerciseWithName != null)
-            throw new ResourceValidationException(ENTITY, "An exercise with the name already exists.");
+        Exercise newExercise = new Exercise();
+        newExercise.setUser(user);
+        newExercise.setTag(tag);
+        newExercise.setApproach(exercise.getApproach());
+        newExercise.setName(exercise.getName());
+        newExercise.setCategory(exercise.getCategory());
+        newExercise.setAssetUrl(exercise.getAssetUrl());
 
-        return exerciseRepository.save(exercise);
+        return exerciseRepository.save(newExercise);
     }
 
     @Override
@@ -64,20 +80,17 @@ public class ExerciseServiceImpl implements ExerciseService {
 
         Set<ConstraintViolation<Exercise>> violations = validator.validate(exercise);
 
-        if(!violations.isEmpty())
+        if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
-        Exercise exerciseWithName = exerciseRepository.findByName(exercise.getName());
 
-        if(exerciseWithName != null)
-            throw new ResourceValidationException(ENTITY,
-                    "An exercise with the same name already exists.");
+        Tag tag = tagRepository.findById(exercise.getTag().getId()).orElseThrow(() -> new NotFoundException("Tag not found."));
 
         return exerciseRepository.findById(exerciseId).map(element ->
                         exerciseRepository.save(element
                                 .withName(exercise.getName())
                                 .withCategory(exercise.getCategory())
-                                .withTag(exercise.getTag())
-                                .withAproach(exercise.getAproach())
+                                .withTag(tag)
+                                .withApproach(exercise.getApproach())
                                 .withAssetUrl(exercise.getAssetUrl())))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, exerciseId));
 

@@ -61,17 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                "/gym4u-api-docs-ui.html",
-                "/v1/gym4u-api-docs",
-                "/gym4u-api-docs/*",
-                "/gym4u-api-docs",
                 "/swagger-ui/*",
-                "/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**"
+                "/v3/api-docs/swagger-config",
+                "/v3/api-docs"
         );
     }
 }
