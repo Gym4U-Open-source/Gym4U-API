@@ -3,7 +3,7 @@ package com.acme.gym4u.fitness.mapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration("learningMappingConfiguration")
+@Configuration("fitnessMappingConfiguration")
 public class MappingConfiguration {
     @Bean
     public TagMapper tagMapper() { return new TagMapper();}
@@ -19,4 +19,7 @@ public class MappingConfiguration {
 
     @Bean
     public WorkoutExerciseMapper workoutExerciseMapper() {return new WorkoutExerciseMapper();}
+
+    @Bean
+    public RoutineMapper routineMapper() { return new RoutineMapper(); }
 }

@@ -1,6 +1,7 @@
 package com.acme.gym4u.fitness.domain.model.entity;
 
 import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "tagsForWorkout")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class TagForWorkout extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

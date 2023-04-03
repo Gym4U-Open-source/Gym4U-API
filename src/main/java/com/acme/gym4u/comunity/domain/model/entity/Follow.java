@@ -27,5 +27,5 @@ public class Follow implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "normal_user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
-    private User normalUser;
+    private User clientUser;
 }

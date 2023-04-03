@@ -9,5 +9,5 @@ import lombok.Setter;
 public class FollowResource {
     private Long id;
     private User coachUser;
-    private User normalUser;
+    private User clientUser;
 }

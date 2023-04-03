@@ -1,4 +1,4 @@
-package com.acme.gym4u.fitness.resource;
+package com.acme.gym4u.fitness.resource.routine;
 
 import com.acme.gym4u.fitness.domain.model.entity.Exercise;
 import com.acme.gym4u.fitness.domain.model.entity.Workout;
@@ -11,15 +11,15 @@ import javax.validation.constraints.NotNull;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWorkoutExerciseResource {
-    @NotNull
-    private Exercise exercise;
-
+public class CreateRoutineResource {
     @NotNull
     private Workout workout;
 
     @NotNull
-    public Long repetitions;
+    private Exercise exercise;
+
+    @NotNull
+    private Long repetitions;
 
     @NotNull
     private Long timePerRepeat;

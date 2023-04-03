@@ -4,7 +4,6 @@ import com.acme.gym4u.fitness.domain.service.TagForWorkoutService;
 import com.acme.gym4u.fitness.mapping.TagForWorkoutMapper;
 import com.acme.gym4u.fitness.resource.CreateTagForWorkoutResource;
 import com.acme.gym4u.fitness.resource.TagForWorkoutResource;
-import com.acme.gym4u.fitness.resource.UpdateExerciseResource;
 import com.acme.gym4u.fitness.resource.UpdateTagForWorkoutResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;

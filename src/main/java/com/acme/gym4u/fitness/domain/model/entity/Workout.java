@@ -2,13 +2,17 @@ package com.acme.gym4u.fitness.domain.model.entity;
 
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,10 +33,17 @@ public class Workout extends AuditModel {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_workout_id", nullable = true)
-    private TagForWorkout tag;
+    @JoinColumn(name = "tag_for_workout_id", nullable = true)
+    @JsonIgnore
+    private TagForWorkout tagForWorkout;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
+
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Routine> routines = new ArrayList<>();
 }

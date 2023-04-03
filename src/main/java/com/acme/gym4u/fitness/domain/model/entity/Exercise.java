@@ -5,6 +5,7 @@ import com.acme.gym4u.fitness.domain.model.enumeration.Categories;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -21,6 +22,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "exercises")
 @JsonInclude(JsonInclude.Include.ALWAYS)
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Exercise extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +51,6 @@ public class Exercise extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 }

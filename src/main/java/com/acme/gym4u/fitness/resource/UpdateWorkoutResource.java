@@ -13,12 +13,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateWorkoutResource {
-    private Long id;
-
     @NotNull
     @NotBlank
     @Size(max=50)
     private String name;
 
-    private TagForWorkout tag;
+    @NotNull
+    private Long tagForWorkoutId;
 }

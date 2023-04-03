@@ -18,5 +18,6 @@ public class CreateWorkoutResource {
     @Size(max=50)
     private String name;
 
-    private TagForWorkout tag;
+    @NotNull
+    private Long tagForWorkoutId;
 }

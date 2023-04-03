@@ -1,14 +1,19 @@
 package com.acme.gym4u.fitness.service;
 
+import com.acme.gym4u.fitness.domain.model.entity.TagForWorkout;
 import com.acme.gym4u.fitness.domain.model.entity.Workout;
+import com.acme.gym4u.fitness.domain.persistence.TagForWorkoutRepository;
 import com.acme.gym4u.fitness.domain.persistence.WorkoutRepository;
 import com.acme.gym4u.fitness.domain.service.WorkoutService;
+import com.acme.gym4u.security.api.internal.UserContextFacade;
+import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -21,10 +26,14 @@ public class WorkoutServiceImpl implements WorkoutService {
     private static final String ENTITY = "Workout";
     private final WorkoutRepository workoutRepository;
     private final Validator validator;
+    private final UserContextFacade userContextFacade;
+    private final TagForWorkoutRepository tagForWorkoutRepository;
 
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, Validator validator) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, Validator validator, UserContextFacade userContextFacade, TagForWorkoutRepository tagForWorkoutRepository) {
         this.workoutRepository = workoutRepository;
         this.validator = validator;
+        this.userContextFacade = userContextFacade;
+        this.tagForWorkoutRepository = tagForWorkoutRepository;
     }
 
     @Override
@@ -48,14 +57,18 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         Set<ConstraintViolation<Workout>> violations = validator.validate(workout);
 
-        if(!violations.isEmpty())
+        if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
-        Workout workoutWithName = workoutRepository.findByName(workout.getName());
 
-        if(workoutWithName != null)
-            throw new ResourceValidationException(ENTITY, "An workout with the same name already exists.");
+        User user = userContextFacade.findByUserToken().orElseThrow(() -> new NotFoundException("User not found"));
+        TagForWorkout tagForWorkout = tagForWorkoutRepository.findById(workout.getTagForWorkout().getId()).orElseThrow(() -> new NotFoundException("Tag for workout not found"));
 
-        return workoutRepository.save(workout);
+        Workout newWorkout = new Workout();
+        newWorkout.setName(workout.getName());
+        newWorkout.setUser(user);
+        newWorkout.setTagForWorkout(tagForWorkout);
+
+        return workoutRepository.save(newWorkout);
     }
 
     @Override
@@ -63,17 +76,15 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         Set<ConstraintViolation<Workout>> violations = validator.validate(workout);
 
-        if(!violations.isEmpty())
+        if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
-        Workout workoutWithName = workoutRepository.findByName(workout.getName());
 
-        if(workoutWithName != null)
-            throw new ResourceValidationException(ENTITY, "An workout with the same name already exists.");
+        TagForWorkout tagForWorkout = tagForWorkoutRepository.findById(workout.getTagForWorkout().getId()).orElseThrow(() -> new NotFoundException("Tag for workout not found"));
 
         return workoutRepository.findById(workoutId).map(element ->
-                workoutRepository.save(element
-                        .withName(workout.getName())
-                        .withTag(workout.getTag())))
+                        workoutRepository.save(element
+                                .withName(workout.getName())
+                                .withTagForWorkout(tagForWorkout)))
                 .orElseThrow(() -> new ResourceNotFoundException(ENTITY, workoutId));
     }
 

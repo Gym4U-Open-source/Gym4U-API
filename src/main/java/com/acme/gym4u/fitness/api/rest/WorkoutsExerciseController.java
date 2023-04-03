@@ -29,18 +29,18 @@ public class WorkoutsExerciseController {
     }
 
     @GetMapping
-    public Page<WorkoutExerciseResource> getAllWorkoutsExercise(Pageable pageable){
-        return mapper.modelListPage(workoutExerciseService.getAll(),pageable);
+    public Page<WorkoutExerciseResource> getAllWorkoutsExercise(Pageable pageable) {
+        return mapper.modelListPage(workoutExerciseService.getAll(), pageable);
     }
 
     @GetMapping("{workoutExerciseId}")
-    public WorkoutExerciseResource getWorkoutExerciseById(@PathVariable Long workoutExerciseId){
+    public WorkoutExerciseResource getWorkoutExerciseById(@PathVariable Long workoutExerciseId) {
+
         return mapper.toResource(workoutExerciseService.getById(workoutExerciseId));
     }
 
     @PostMapping
-    public ResponseEntity<WorkoutExerciseResource> createWorkoutExercise(
-            @RequestBody CreateWorkoutExerciseResource resource){
+    public ResponseEntity<WorkoutExerciseResource> createWorkoutExercise(@RequestBody CreateWorkoutExerciseResource resource) {
 
         return new ResponseEntity<>(mapper.toResource(
                 workoutExerciseService.create(mapper.toModel(resource))),
@@ -50,7 +50,7 @@ public class WorkoutsExerciseController {
     @PutMapping("{workoutExerciseId}")
     public WorkoutExerciseResource updateWorkoutExercise(
             @PathVariable Long workoutExerciseId,
-            @RequestBody UpdateWorkoutExerciseResource resource){
+            @RequestBody UpdateWorkoutExerciseResource resource) {
 
         return mapper.toResource(
                 workoutExerciseService.update(workoutExerciseId,
@@ -58,7 +58,7 @@ public class WorkoutsExerciseController {
     }
 
     @DeleteMapping("{workoutExerciseId}")
-    public ResponseEntity<?> deleteWorkoutExercise(@PathVariable Long workoutExerciseId){
-        return  workoutExerciseService.delete(workoutExerciseId);
+    public ResponseEntity<?> deleteWorkoutExercise(@PathVariable Long workoutExerciseId) {
+        return workoutExerciseService.delete(workoutExerciseId);
     }
 }
