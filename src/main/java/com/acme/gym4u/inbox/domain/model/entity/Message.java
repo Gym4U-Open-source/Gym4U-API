@@ -37,4 +37,8 @@ public class Message extends AuditModel {
     @Column(name = "message")
     private String message;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
+
 }

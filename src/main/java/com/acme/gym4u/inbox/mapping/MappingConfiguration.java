@@ -10,4 +10,7 @@ public class MappingConfiguration {
     public MessageMapper messageMapper() {
         return new MessageMapper();
     }
+
+    @Bean
+    public ConversationMapper conversationMapper() { return new ConversationMapper(); }
 }

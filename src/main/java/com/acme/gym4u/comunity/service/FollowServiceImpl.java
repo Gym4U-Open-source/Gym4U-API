@@ -4,8 +4,9 @@ import com.acme.gym4u.comunity.domain.model.entity.Follow;
 import com.acme.gym4u.comunity.domain.persistence.FollowRepository;
 import com.acme.gym4u.comunity.domain.service.FollowService;
 import com.acme.gym4u.comunity.resource.CreateFollowResource;
+import com.acme.gym4u.inbox.api.internal.ConversationContextFacade;
+import com.acme.gym4u.inbox.domain.model.entity.Conversation;
 import com.acme.gym4u.security.api.internal.UserContextFacade;
-import com.acme.gym4u.security.domain.model.entity.Role;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.security.domain.model.enumns.Roles;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
@@ -23,10 +24,12 @@ public class FollowServiceImpl implements FollowService {
     private static final String ENTITY = "Follow";
     private final FollowRepository followRepository;
     private final UserContextFacade userContextFacade;
+    private final ConversationContextFacade conversationContextFacade;
 
-    public FollowServiceImpl(FollowRepository followRepository, UserContextFacade userContextFacade) {
+    public FollowServiceImpl(FollowRepository followRepository, UserContextFacade userContextFacade, ConversationContextFacade conversationContextFacade) {
         this.followRepository = followRepository;
         this.userContextFacade = userContextFacade;
+        this.conversationContextFacade = conversationContextFacade;
     }
     @Override
     public Follow create(CreateFollowResource resource) {
@@ -79,6 +82,12 @@ public class FollowServiceImpl implements FollowService {
         Follow existingFollow = followRepository.findByCoachUserIdAndClientUserId(coachId, clientId);
 
         if (existingFollow != null) throw new ResponseStatusException(HttpStatus.CONFLICT, "Follow already exist");
+
+        Conversation existingConversation = conversationContextFacade.findConversationByCoachIdAndClientId(coachId, clientId);
+
+        if (existingConversation == null) {
+            conversationContextFacade.createConversationByCoachIdAndClientId(coachId, clientId);
+        }
 
         Follow newFollow = new Follow().withCoachUser(coach).withClientUser(client);
 
