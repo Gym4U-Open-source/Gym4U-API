@@ -1,6 +1,8 @@
 package com.acme.gym4u.inbox.resource.create;
 
 
+import com.acme.gym4u.inbox.domain.model.entity.Conversation;
+import com.acme.gym4u.security.domain.model.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -13,11 +15,14 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @With
 public class CreateMessageResource {
-
-    private Long id;
+    @NotBlank
+    @NotNull
+    @Size(max = 240)
+    private String message;
 
     @NotNull
-    @NotBlank
-    @Size(max = 200)
-    private String message;
+    private Conversation conversation;
+
+    @NotNull
+    private User user;
 }

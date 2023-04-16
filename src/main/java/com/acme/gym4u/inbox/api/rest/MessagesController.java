@@ -1,6 +1,7 @@
 package com.acme.gym4u.inbox.api.rest;
 
 
+import com.acme.gym4u.inbox.domain.model.entity.Message;
 import com.acme.gym4u.inbox.domain.service.MessageService;
 import com.acme.gym4u.inbox.mapping.MessageMapper;
 import com.acme.gym4u.inbox.resource.create.CreateMessageResource;
@@ -8,6 +9,7 @@ import com.acme.gym4u.inbox.resource.update.MessageResource;
 import com.acme.gym4u.inbox.resource.update.UpdateMessageResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +37,11 @@ public class MessagesController {
         return mapper.toResource(messageService.getById(messageId));
     }
 
-    @PostMapping("user/{userId}")
-    public MessageResource createMessage(@PathVariable Long userId,
-                                         @Valid @RequestBody CreateMessageResource resource){
-        return mapper.toResource(messageService.create(userId, mapper.toModel(resource)));
+    @PostMapping
+    public ResponseEntity<MessageResource> createMessage(@Valid @RequestBody CreateMessageResource resource) {
+        Message asd = mapper.toModel(resource);
+        System.out.println(asd);
+        return new ResponseEntity<>(mapper.toResource(messageService.create(mapper.toModel(resource))), HttpStatus.CREATED);
     }
 
     @PutMapping("{messageId}")
@@ -46,7 +49,7 @@ public class MessagesController {
             @PathVariable Long messageId,
             @RequestBody UpdateMessageResource resource) {
         return mapper.toResource(
-                messageService.update(messageId,
+                messageService.update(
                         mapper.toModel(resource)));
     }
 

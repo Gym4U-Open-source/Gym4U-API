@@ -26,7 +26,7 @@ public class MessageMapper implements Serializable {
         return new PageImpl<>(mapper.mapList(modelList,MessageResource.class),pageable,modelList.size());
     }
 
-    public Message toModel(CreateMessageResource resource){
+    public Message toModel(CreateMessageResource resource) {
         return mapper.map(resource, Message.class);
     }
 

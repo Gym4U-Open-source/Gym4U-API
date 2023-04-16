@@ -1,6 +1,7 @@
 package com.acme.gym4u.inbox.resource.conversation;
 
 import com.acme.gym4u.inbox.domain.model.entity.Message;
+import com.acme.gym4u.inbox.resource.update.MessageResource;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -18,5 +19,5 @@ public class ConversationResource {
     private User coach;
     @JsonIgnore
     private User client;
-    private List<Message> messages;
+    private List<MessageResource> messages;
 }

@@ -18,7 +18,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "messages")
-
 public class Message extends AuditModel {
 
     @Id
@@ -39,6 +38,6 @@ public class Message extends AuditModel {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "conversation_id")
+    @JsonIgnore
     private Conversation conversation;
-
 }
