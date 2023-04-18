@@ -1,5 +1,7 @@
 package com.acme.gym4u.posts.domain.model.entity;
 
+import com.acme.gym4u.security.domain.model.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +25,11 @@ public class PostComment {
     )
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     @Override
     public boolean equals(Object o) {
