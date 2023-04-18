@@ -1,7 +1,11 @@
-package com.acme.gym4u.posts.api.rest;
+package com.acme.gym4u.posts.api;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.service.PostService;
+import com.acme.gym4u.posts.mapping.PostMapper;
+import com.acme.gym4u.posts.resource.PostResource;
+import com.acme.gym4u.posts.resource.create.CreatePostResource;
+import com.acme.gym4u.posts.resource.update.UpdatePostResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,37 +19,36 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final PostMapper mapper;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PostMapper mapper) {
         this.postService = postService;
+        this.mapper = mapper;
     }
 
-    @GetMapping("/")
-    public List<Post> getAllPosts() {
-        return postService.getAll();
-    }
-
-    @GetMapping("/aaa")
-    public Page<Post> getAllStudents(Pageable pageable) {
-        return postService.getAll(pageable);
+    @GetMapping
+    public Page<PostResource> getAllPosts(Pageable pageable) {
+        return mapper.modelListPage(postService.getAll(),pageable);
     }
 
     @GetMapping("{postId}")
-    public Post getPostById(@PathVariable Long postId) {
-        return postService.getById(postId);
+    public PostResource getPostById(@PathVariable Long postId) {
+
+        return mapper.toResource(postService.getById(postId));
     }
 
-    @PostMapping("/create-post/")
-    public ResponseEntity<Post> createPost(
-            @RequestBody Post resource) {
-        return new ResponseEntity<> (postService.create(resource), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<PostResource> createPost(@RequestBody CreatePostResource resource) {
+        return new ResponseEntity<> (mapper.toResource(postService.create(mapper.toModel(resource))), HttpStatus.CREATED);
     }
 
     @PutMapping("{postId}")
-    public Post updatePost(
+    public PostResource updatePost(
             @PathVariable Long postId,
-            @RequestBody Post resource) {
-        return postService.update(postId, resource);
+            @RequestBody UpdatePostResource resource) {
+        return mapper.toResource(
+                postService.update(postId,
+                        mapper.toModel(resource)));
     }
 
     @DeleteMapping("{postId}")

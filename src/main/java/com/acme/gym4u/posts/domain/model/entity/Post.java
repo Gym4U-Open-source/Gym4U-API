@@ -1,6 +1,9 @@
 package com.acme.gym4u.posts.domain.model.entity;
 
 
+import com.acme.gym4u.security.domain.model.entity.User;
+import com.acme.gym4u.shared.domain.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +42,7 @@ public class Post {
     @Column(name= "url_image")
     private String urlImage;
 
+
     @OneToMany(
             mappedBy = "post",
             cascade = CascadeType.ALL,
@@ -46,6 +50,13 @@ public class Post {
     )
     private List<PostComment> comments = new ArrayList<>();
 
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
+    /*
     public void addComment(PostComment comment) {
         comments.add(comment);
         comment.setPost(this);
@@ -55,4 +66,5 @@ public class Post {
         comments.remove(comment);
         comment.setPost(null);
     }
+    */
 }
