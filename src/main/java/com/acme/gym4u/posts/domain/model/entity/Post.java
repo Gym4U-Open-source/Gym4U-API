@@ -2,6 +2,7 @@ package com.acme.gym4u.posts.domain.model.entity;
 
 
 import com.acme.gym4u.security.domain.model.entity.User;
+import com.acme.gym4u.shared.domain.model.AuditModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
