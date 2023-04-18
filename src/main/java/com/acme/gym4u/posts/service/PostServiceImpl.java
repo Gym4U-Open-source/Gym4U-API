@@ -3,6 +3,8 @@ package com.acme.gym4u.posts.service;
 import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.persistence.PostRepository;
 import com.acme.gym4u.posts.domain.service.PostService;
+import com.acme.gym4u.security.api.internal.UserContextFacade;
+import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,13 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final Validator validator;
 
+    private UserContextFacade userContextFacade;
 
-    public PostServiceImpl(PostRepository postRepository, Validator validator) {
+
+    public PostServiceImpl(PostRepository postRepository, Validator validator, UserContextFacade userContextFacade) {
         this.postRepository = postRepository;
         this.validator = validator;
+        this.userContextFacade = userContextFacade;
     }
 
     @Override
@@ -56,7 +61,17 @@ public class PostServiceImpl implements PostService {
         Set<ConstraintViolation<Post>> violations = validator.validate(post);
         if (!violations.isEmpty())
             throw new ResourceValidationException(ENTITY, violations);
-        return postRepository.save(post);
+
+        User user = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Post newPost = new Post();
+        newPost.setUser(user);
+        newPost.setTitle(post.getTitle());
+        newPost.setComments(post.getComments());
+        newPost.setDescription(post.getDescription());
+        newPost.setUrlImage(post.getUrlImage());
+
+        return postRepository.save(newPost);
     }
 
     @Override

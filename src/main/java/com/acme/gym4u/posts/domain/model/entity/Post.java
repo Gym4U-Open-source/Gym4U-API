@@ -1,6 +1,8 @@
 package com.acme.gym4u.posts.domain.model.entity;
 
 
+import com.acme.gym4u.security.domain.model.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,6 +47,11 @@ public class Post {
             orphanRemoval = true
     )
     private List<PostComment> comments = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
     public void addComment(PostComment comment) {
         comments.add(comment);
