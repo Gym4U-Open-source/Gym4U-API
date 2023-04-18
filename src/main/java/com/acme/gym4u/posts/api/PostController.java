@@ -1,4 +1,4 @@
-package com.acme.gym4u.posts.api.rest;
+package com.acme.gym4u.posts.api;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.service.PostService;
