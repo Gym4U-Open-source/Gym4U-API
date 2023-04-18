@@ -1,7 +1,9 @@
 package com.acme.gym4u.posts.service;
 
+import com.acme.gym4u.posts.domain.model.entity.Post;
 import com.acme.gym4u.posts.domain.model.entity.PostComment;
 import com.acme.gym4u.posts.domain.persistence.PostCommentRepository;
+import com.acme.gym4u.posts.domain.persistence.PostRepository;
 import com.acme.gym4u.posts.domain.service.PostCommentService;
 import com.acme.gym4u.security.api.internal.UserContextFacade;
 import com.acme.gym4u.security.domain.model.entity.User;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 
 import javax.validation.ConstraintViolation;
@@ -23,11 +26,14 @@ public class PostCommentImpl implements PostCommentService {
 
     private static final String ENTITY = "Post Comment";
     private final PostCommentRepository postCommentRepository;
+
+    private final PostRepository postRepository;
     private final Validator validator;
     private UserContextFacade userContextFacade;
 
-    public PostCommentImpl(PostCommentRepository postCommentRepository, Validator validator, UserContextFacade userContextFacade) {
+    public PostCommentImpl(PostCommentRepository postCommentRepository, PostRepository postRepository, Validator validator, UserContextFacade userContextFacade) {
         this.postCommentRepository = postCommentRepository;
+        this.postRepository = postRepository;
         this.validator = validator;
         this.userContextFacade = userContextFacade;
     }
@@ -55,10 +61,11 @@ public class PostCommentImpl implements PostCommentService {
             throw new ResourceValidationException(ENTITY, violations);
 
         User user = userContextFacade.findByUserToken().orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Post post = postRepository.findById(postComment.getPost().getId()).orElseThrow( () -> new NotFoundException("Post not found"));
 
         PostComment newPostComment = new PostComment();
         newPostComment.setUser(user);
-        newPostComment.setPost(postComment.getPost());
+        newPostComment.setPost(post);
         newPostComment.setReview(postComment.getReview());
 
         return postCommentRepository.save(newPostComment);

@@ -1,13 +1,14 @@
 package com.acme.gym4u.posts.service;
 
 import com.acme.gym4u.posts.domain.model.entity.Post;
+import com.acme.gym4u.posts.domain.model.entity.PostComment;
+import com.acme.gym4u.posts.domain.persistence.PostCommentRepository;
 import com.acme.gym4u.posts.domain.persistence.PostRepository;
 import com.acme.gym4u.posts.domain.service.PostService;
 import com.acme.gym4u.security.api.internal.UserContextFacade;
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.exception.ResourceNotFoundException;
 import com.acme.gym4u.shared.exception.ResourceValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public class PostServiceImpl implements PostService {
     private UserContextFacade userContextFacade;
 
 
-    public PostServiceImpl(PostRepository postRepository, Validator validator, UserContextFacade userContextFacade) {
+
+    public PostServiceImpl(PostRepository postRepository, Validator validator, UserContextFacade userContextFacade, PostCommentRepository postCommentRepository) {
         this.postRepository = postRepository;
         this.validator = validator;
         this.userContextFacade = userContextFacade;

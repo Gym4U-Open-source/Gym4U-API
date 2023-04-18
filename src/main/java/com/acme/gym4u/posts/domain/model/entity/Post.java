@@ -42,6 +42,7 @@ public class Post extends AuditModel {
     @Column(name= "url_image")
     private String urlImage;
 
+
     @OneToMany(
             mappedBy = "post",
             cascade = CascadeType.ALL,
@@ -49,11 +50,13 @@ public class Post extends AuditModel {
     )
     private List<PostComment> comments = new ArrayList<>();
 
+
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 
+    /*
     public void addComment(PostComment comment) {
         comments.add(comment);
         comment.setPost(this);
@@ -63,4 +66,5 @@ public class Post extends AuditModel {
         comments.remove(comment);
         comment.setPost(null);
     }
+    */
 }
