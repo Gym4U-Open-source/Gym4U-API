@@ -22,7 +22,7 @@ public class Gym4UApplication extends SpringBootServletInitializer implements We
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("/**")
                 .allowedMethods("*")
                 .maxAge(3600L)
                 .allowedHeaders("*")
