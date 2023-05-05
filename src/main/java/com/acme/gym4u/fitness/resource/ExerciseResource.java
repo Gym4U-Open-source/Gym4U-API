@@ -16,5 +16,5 @@ public class ExerciseResource {
     private Approaches approach;
     private String name;
     private String assetUrl;
-    private Tag tag;
+    private TagResource tag;
 }
