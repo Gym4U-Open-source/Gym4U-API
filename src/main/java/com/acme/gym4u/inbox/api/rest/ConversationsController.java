@@ -30,6 +30,6 @@ public class ConversationsController {
 
     @GetMapping("/coach/{coachId}/client/{clientId}")
     public ResponseEntity<ConversationResource> getConversationsByCoachIdAndClientId(@PathVariable Long coachId, @PathVariable Long clientId) {
-        return new ResponseEntity<>(mapper.toResource(conversationService.getConversationByCoachIdAndClientId(coachId, clientId)), HttpStatus.FOUND);
+        return new ResponseEntity<>(mapper.toResource(conversationService.getConversationByCoachIdAndClientId(coachId, clientId)), HttpStatus.OK);
     }
 }

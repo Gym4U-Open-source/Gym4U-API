@@ -41,7 +41,6 @@ public class Exercise extends AuditModel {
 
     @NotNull
     @NotBlank
-    @Size(max=120)
     private String assetUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
