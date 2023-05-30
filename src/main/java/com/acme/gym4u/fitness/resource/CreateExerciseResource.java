@@ -31,7 +31,6 @@ public class CreateExerciseResource {
 
     @NotNull
     @NotBlank
-    @Size(max = 120)
     private String assetUrl;
 
     @NotNull
