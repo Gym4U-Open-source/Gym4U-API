@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "routines")
 @JsonInclude(JsonInclude.Include.ALWAYS)
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Routine extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

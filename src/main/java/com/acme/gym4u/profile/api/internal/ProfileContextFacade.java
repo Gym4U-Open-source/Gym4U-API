@@ -4,4 +4,6 @@ import com.acme.gym4u.profile.domain.model.entity.Profile;
 
 public interface ProfileContextFacade {
     Profile create(Profile profile);
+
+    Profile findByUser(Long userId);
 }

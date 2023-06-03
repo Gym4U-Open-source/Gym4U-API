@@ -22,4 +22,7 @@ public class MappingConfiguration {
 
     @Bean
     public RoutineMapper routineMapper() { return new RoutineMapper(); }
+
+    @Bean
+    public UserRoutineMapper userRoutineMapper() {return new UserRoutineMapper();}
 }

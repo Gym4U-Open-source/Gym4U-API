@@ -2,18 +2,11 @@ package com.acme.gym4u.fitness.domain.model.entity;
 
 import com.acme.gym4u.security.domain.model.entity.User;
 import com.acme.gym4u.shared.domain.model.AuditModel;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,31 +14,28 @@ import java.util.List;
 @AllArgsConstructor
 @With
 @Entity
-@Table(name = "workouts")
+@Table(name = "userRoutine")
 @JsonInclude(JsonInclude.Include.ALWAYS)
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class Workout extends AuditModel {
+public class UserRoutine extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotBlank
-    @Size(max=50)
-    private String name;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_for_workout_id", nullable = true)
-    @JsonIgnore
-    private TagForWorkout tagForWorkout;
+    @JoinColumn(name = "workout_id", nullable = false)
+    private Workout workout;
 
+    /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    @JsonIgnore
-    private List<Routine> routines = new ArrayList<>();
+     */
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private User client;
+
+    //Json IGNORE agrego o no?
 }

@@ -28,4 +28,5 @@ public class Follow implements Serializable {
     @JoinColumn(name = "normal_user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private User clientUser;
+
 }
