@@ -33,7 +33,7 @@ public class UserFollowersController {
     }
 
     @GetMapping("{clientId}")
-    public ResponseEntity<FollowResource> getFollowByCoachIdAndClientId(@PathVariable Long coachId, @PathVariable Long clientId) {
+    public ResponseEntity<FollowResource> getFollowByCoachIdAndClientId(@RequestParam(required = false) Long coachId, @PathVariable Long clientId) {
         return new ResponseEntity<>(mapper.toResource(followService.getFollow(coachId, clientId)), HttpStatus.FOUND);
     }
 

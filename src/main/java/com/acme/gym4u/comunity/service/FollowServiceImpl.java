@@ -96,11 +96,11 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public Follow getFollow(Long coachId, Long clientId) {
-        Follow follow = followRepository.findByCoachUserIdAndClientUserId(coachId, clientId);
+        Follow follow = coachId != null ? followRepository.findByCoachUserIdAndClientUserId(coachId, clientId) : followRepository.findByClientUserId(clientId);
 
         if (follow == null) throw new ResourceNotFoundException(ENTITY);
 
-        return followRepository.findByCoachUserIdAndClientUserId(coachId, clientId);
+        return follow;
     }
 
     @Override
