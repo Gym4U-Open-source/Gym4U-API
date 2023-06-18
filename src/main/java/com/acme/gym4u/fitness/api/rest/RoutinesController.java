@@ -5,6 +5,8 @@ import com.acme.gym4u.fitness.mapping.RoutineMapper;
 import com.acme.gym4u.fitness.resource.routine.CreateRoutineResource;
 import com.acme.gym4u.fitness.resource.routine.RoutineResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +26,10 @@ public class RoutinesController {
     @PostMapping
     public ResponseEntity<RoutineResource> createRoutine(@RequestBody CreateRoutineResource resource) {
         return new ResponseEntity<>(mapper.toResource(routineService.create(mapper.toModel(resource))), HttpStatus.CREATED);
+    }
+
+    @GetMapping("{workoutId}")
+    public Page<RoutineResource> getRoutinesByWorkoutId(@PathVariable Long workoutId, Pageable pageable){
+        return mapper.modelListPage(routineService.getAllByWorkoutId(workoutId),pageable);
     }
 }

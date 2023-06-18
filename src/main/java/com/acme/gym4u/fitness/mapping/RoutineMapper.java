@@ -20,4 +20,8 @@ public class RoutineMapper implements Serializable {
 
     public RoutineResource toResource(Routine model) { return mapper.map(model, RoutineResource.class); }
     public Routine toModel(CreateRoutineResource resource) { return mapper.map(resource, Routine.class); }
+
+    public Page<RoutineResource> modelListPage(List<Routine> modelList, Pageable pageable){
+        return new PageImpl<>(mapper.mapList(modelList, RoutineResource.class),pageable,modelList.size());
+    }
 }

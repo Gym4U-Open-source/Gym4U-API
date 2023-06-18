@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface RoutineService {
     List<Routine> getAll();
+
+    List<Routine> getAllByWorkoutId(Long workoutId);
     Page<Routine> getAll(Pageable pageable);
     Routine create(Routine routine);
     Routine update(Long routineId, Routine routine);

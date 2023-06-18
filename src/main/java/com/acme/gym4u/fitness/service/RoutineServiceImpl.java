@@ -40,6 +40,11 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
+    public List<Routine> getAllByWorkoutId(Long workoutId) {
+        return routineRepository.findAllByWorkoutId(workoutId);
+    }
+
+    @Override
     public Page<Routine> getAll(Pageable pageable) {
         return null;
     }
