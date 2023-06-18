@@ -1,5 +1,6 @@
 package com.acme.gym4u.security.resource;
 
+import com.acme.gym4u.security.domain.model.enumns.Roles;
 import lombok.*;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public class UserResource {
     private Long id;
     private String username;
     private String email;
-    private List<String> roles;
+    private List<Roles> roles;
 }
