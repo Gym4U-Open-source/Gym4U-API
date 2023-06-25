@@ -44,6 +44,16 @@ public class PostCommentImpl implements PostCommentService {
     }
 
     @Override
+    public Page<PostComment> getAllByPostId(Long postId, Pageable pageable) {
+        return postCommentRepository.getAllByPostId(postId, pageable);
+    }
+
+    @Override
+    public List<PostComment> getAllByPostId(Long postId) {
+        return postCommentRepository.getAllByPostId(postId);
+    }
+
+    @Override
     public Page<PostComment> getAll(Pageable pageable) {
         return postCommentRepository.findAll(pageable);
     }

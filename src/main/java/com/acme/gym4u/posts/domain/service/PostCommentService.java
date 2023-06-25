@@ -10,6 +10,8 @@ import java.util.List;
 public interface PostCommentService {
 
     List<PostComment> getAll();
+    Page<PostComment> getAllByPostId(Long postId, Pageable pageable);
+    List<PostComment> getAllByPostId(Long postId);
     Page<PostComment> getAll(Pageable pageable);
     PostComment getById(Long postCommentId);
     PostComment create(PostComment postComment);

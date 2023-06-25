@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/postsComments", produces = "application/json")
+@RequestMapping(value = "api/v1/posts-comments", produces = "application/json")
 public class PostCommentController {
 
     private final PostCommentService postCommentService;
@@ -27,10 +27,15 @@ public class PostCommentController {
         this.mapper = mapper;
     }
 
+    @GetMapping("post/{postId}")
+    public Page<PostCommentResource> getAllPostCommentsByPostId(@PathVariable Long postId, Pageable pageable) {
+        return mapper.modelListPage(postCommentService.getAllByPostId(postId), pageable);
+    }
 
     @GetMapping
     public Page<PostCommentResource> getAllPostComments(Pageable pageable) {
-        return mapper.modelListPage(postCommentService.getAll(),pageable);}
+        return mapper.modelListPage(postCommentService.getAll(),pageable);
+    }
 
     @GetMapping("{postCommentId}")
     public PostCommentResource getPostCommentById(@PathVariable Long postCommentId){
