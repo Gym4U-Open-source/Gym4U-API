@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -15,9 +17,12 @@ import javax.persistence.*;
 @Table(name = "post_comment")
 public class PostComment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @NotBlank
+    @Column(name = "review")
     private String review;
 
     @ManyToOne(
@@ -30,22 +35,4 @@ public class PostComment {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (!(o instanceof PostComment))
-            return false;
-
-        return
-                id != null &&
-                        id.equals(((PostComment) o).getId());
-    }
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
 }
