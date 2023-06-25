@@ -26,9 +26,18 @@ public class PostController {
         this.mapper = mapper;
     }
 
+    @GetMapping("keyword/{keyword}")
+    public  Page<PostResource> getAllPostsByKeywordContaining(@PathVariable String keyword, Pageable pageable) {
+        return  mapper.modelListPage(postService.getAllByDescriptionContaining(keyword), pageable);
+    }
+
     @GetMapping
-    public Page<PostResource> getAllPosts(Pageable pageable) {
-        return mapper.modelListPage(postService.getAll(),pageable);
+    public Page<PostResource> getAllPosts(@RequestParam("keyword") String keyword, Pageable pageable) {
+        if (keyword == null || keyword.isEmpty()) {
+            return mapper.modelListPage(postService.getAll(), pageable);
+        } else {
+            return mapper.modelListPage(postService.getAllByDescriptionContaining(keyword), pageable);
+        }
     }
 
     @GetMapping("{postId}")

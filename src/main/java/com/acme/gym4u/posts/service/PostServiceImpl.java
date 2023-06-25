@@ -50,6 +50,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Page<Post> getAllByDescriptionContaining(String keyword, Pageable pageable) {
+        return postRepository.findByDescriptionContaining(keyword, pageable);
+    }
+
+    @Override
+    public List<Post> getAllByDescriptionContaining(String keyword) {
+        return postRepository.findByDescriptionContaining(keyword);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Post getById(Long postId) {
         return postRepository.findById(postId)

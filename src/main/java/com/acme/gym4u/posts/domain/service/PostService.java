@@ -11,6 +11,8 @@ import java.util.List;
 public interface PostService {
     List<Post> getAll();
     Page<Post> getAll(Pageable pageable);
+    Page<Post> getAllByDescriptionContaining(String keyword, Pageable pageable);
+    List<Post> getAllByDescriptionContaining(String keyword);
     Post getById(Long postId);
     Post create(Post post);
     Post update(Long postId, Post request);
